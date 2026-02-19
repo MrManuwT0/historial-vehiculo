@@ -3,141 +3,134 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial Vehículo | Informe por Matrícula</title>
+    <title>Historial Vehículo | Informe Oficial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .plate-input { letter-spacing: 4px; text-transform: uppercase; }
-        .bg-carbon { background-color: #111; background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
+        .plate-font { font-family: 'Courier New', Courier, monospace; letter-spacing: 3px; }
+        .hero-bg {
+            background: linear-gradient(rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.9)), 
+                        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+        }
     </style>
 </head>
-<body class="bg-gray-50 font-sans text-gray-900">
+<body class="bg-slate-50 font-sans">
 
-    <nav class="bg-white border-b border-gray-100 py-4 shadow-sm">
+    <nav class="bg-white border-b py-4 shadow-sm">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div class="flex items-center gap-2">
-                <i class="fas fa-search-location text-blue-600 text-3xl"></i>
-                <span class="text-2xl font-black tracking-tighter uppercase text-slate-800">Matri<span class="text-blue-600">Check</span></span>
+                <i class="fas fa-car-side text-blue-600 text-3xl"></i>
+                <span class="text-2xl font-black tracking-tighter uppercase text-slate-800">HISTORIAL<span class="text-blue-600">AUTO</span></span>
             </div>
-            <div class="hidden md:flex space-x-6 text-sm font-bold uppercase text-gray-500">
-                <a href="#" class="hover:text-blue-600 transition tracking-widest">Informes Oficiales</a>
-                <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">Área Cliente</a>
+            <div class="hidden md:flex items-center gap-8 text-xs font-bold text-slate-500 uppercase tracking-widest">
+                <a href="#" class="hover:text-blue-600">Informes</a>
+                <a href="#" class="hover:text-blue-600">Flotas</a>
+                <a href="#" class="bg-slate-800 text-white px-6 py-2 rounded-lg">Acceso</a>
             </div>
         </div>
     </nav>
 
-    <section class="bg-slate-900 py-24 px-6 relative overflow-hidden text-center">
-        <div class="absolute inset-0 opacity-10">
-            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
-        </div>
-        
-        <div class="max-w-3xl mx-auto relative z-10">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6 leading-tight uppercase italic">Informe de Vehículo por Matrícula</h1>
-            <p class="text-gray-300 text-lg mb-10">Accede al historial oficial: Multas, Accidentes, Kilómetros y Cargas.</p>
-            
+    <header class="hero-bg py-32 px-6 text-center text-white">
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-extrabold mb-6 leading-tight">Consulta el historial de cualquier coche</h1>
+            <p class="text-slate-300 text-xl mb-12">Accede a datos de accidentes, kilometraje real y cargas legales en un solo clic.</p>
+
             <div class="bg-white p-3 rounded-2xl shadow-2xl flex flex-col md:flex-row gap-3">
-                <div class="flex-grow relative group">
-                    <div class="absolute left-3 top-1/2 -translate-y-1/2 flex flex-col items-center justify-center bg-blue-800 text-white rounded-sm w-10 h-10">
-                        <span class="text-[8px] leading-tight">EU</span>
-                        <span class="text-xs font-bold leading-none">E</span>
+                <div class="flex-grow flex items-center border-2 border-slate-100 rounded-xl overflow-hidden focus-within:border-blue-500 transition">
+                    <div class="bg-blue-700 text-white px-4 py-4 flex flex-col items-center justify-center border-r">
+                        <span class="text-[10px] font-bold">EU</span>
+                        <span class="font-black text-lg">E</span>
                     </div>
-                    <input id="plateInput" type="text" placeholder="EJ: 1234BBB" 
-                           class="plate-input w-full pl-16 pr-4 py-5 text-2xl font-bold rounded-xl border-2 border-transparent focus:border-blue-500 outline-none">
+                    <input id="plateInput" type="text" placeholder="INTRODUCE LA MATRÍCULA" 
+                           class="w-full p-4 text-2xl font-bold plate-font uppercase outline-none text-slate-800 placeholder:text-slate-300">
                 </div>
-                <button onclick="ejecutarConsulta()" class="bg-blue-600 hover:bg-blue-700 text-white text-xl font-bold px-12 py-5 rounded-xl transition-all shadow-lg active:scale-95 uppercase tracking-tighter">
-                    Ver Informe
+                <button onclick="consultarDGT()" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-12 py-5 rounded-xl transition-all shadow-xl uppercase tracking-tighter text-lg">
+                    Generar Informe
                 </button>
             </div>
-            <p class="mt-4 text-gray-400 text-sm font-bold tracking-widest uppercase">
-                <i class="fas fa-shield-alt text-green-500 mr-2"></i>Consulta DGT en tiempo real
-            </p>
-        </div>
-    </section>
-
-    <section id="resultsSection" class="max-w-5xl mx-auto py-16 px-6 hidden">
-        
-        <div id="loader" class="text-center py-20 bg-white rounded-3xl shadow-sm border">
-            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-600 mx-auto"></div>
-            <p class="mt-6 text-gray-500 font-bold uppercase tracking-widest text-xs italic">Consultando registros nacionales...</p>
-        </div>
-
-        <div id="errorBox" class="bg-red-50 border-l-4 border-red-500 p-6 text-red-700 hidden mb-6 rounded-r-3xl animate-pulse">
-            <p class="font-bold uppercase text-xs">Error detectado:</p>
-            <p id="errorMessage" class="text-sm font-medium"></p>
-        </div>
-
-        <div id="reportCard" class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 hidden">
-            <div class="bg-slate-800 p-8 text-white flex flex-col md:flex-row justify-between items-center gap-4 border-b-8 border-blue-600">
-                <div>
-                    <span class="text-blue-400 font-bold uppercase text-xs tracking-[4px]">Informe Oficial Generado</span>
-                    <h2 id="resPlate" class="text-5xl font-mono font-black mt-1 tracking-[6px]">---</h2>
-                </div>
-                <div class="flex items-center gap-3 bg-white/10 px-6 py-3 rounded-2xl border border-white/20">
-                    <div class="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-                    <span class="font-bold text-xs uppercase tracking-widest">Vehículo Identificado</span>
-                </div>
+            
+            <div class="mt-8 flex flex-wrap justify-center gap-6 text-sm font-bold text-slate-400">
+                <span><i class="fas fa-check-circle text-green-500 mr-2"></i>DGT / REPUVE</span>
+                <span><i class="fas fa-check-circle text-green-500 mr-2"></i>Cargas Legales</span>
+                <span><i class="fas fa-check-circle text-green-500 mr-2"></i>Kilometraje</span>
             </div>
+        </div>
+    </header>
 
-            <div class="p-8 grid md:grid-cols-3 gap-12">
-                <div class="md:col-span-2 space-y-8">
+    <section id="resultSection" class="max-w-5xl mx-auto py-16 px-6 hidden">
+        <div id="loader" class="text-center py-20 bg-white rounded-3xl border shadow-sm">
+            <div class="animate-spin text-blue-600 text-6xl mb-6"><i class="fas fa-circle-notch"></i></div>
+            <h3 class="text-xl font-bold text-slate-700 uppercase tracking-widest">Conectando con Tráfico...</h3>
+        </div>
+
+        <div id="errorBox" class="bg-red-50 border-l-4 border-red-500 p-6 text-red-700 hidden mb-6 rounded-r-xl">
+            <p class="font-bold text-xs uppercase mb-1">Error de la API:</p>
+            <p id="errorMessage" class="font-medium"></p>
+        </div>
+
+        <div id="reportCard" class="hidden">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border">
+                <div class="bg-slate-800 p-8 text-white flex flex-col md:flex-row justify-between items-center border-b-8 border-blue-600">
                     <div>
-                        <h3 class="text-gray-400 font-bold uppercase text-[10px] mb-8 border-b pb-2 tracking-widest">Datos Técnicos del Vehículo</h3>
-                        <div class="grid grid-cols-2 gap-10">
-                            <div><p class="text-[10px] text-gray-400 uppercase font-black">Marca / Fabricante</p><p id="resMake" class="text-2xl font-black italic uppercase text-slate-800">---</p></div>
-                            <div><p class="text-[10px] text-gray-400 uppercase font-black">Modelo / Serie</p><p id="resModel" class="text-2xl font-black italic uppercase text-slate-800">---</p></div>
-                            <div><p class="text-[10px] text-gray-400 uppercase font-black">Año Matriculación</p><p id="resYear" class="text-2xl font-black text-slate-800">---</p></div>
-                            <div><p class="text-[10px] text-gray-400 uppercase font-black">Estado Legal</p><p class="text-2xl font-black text-green-600 italic tracking-tighter uppercase">Sin Cargas</p></div>
+                        <p class="text-blue-400 font-bold uppercase text-[10px] mb-1 tracking-[4px]">Informe Oficial</p>
+                        <h2 id="resPlate" class="text-6xl font-mono font-black tracking-[8px]">---</h2>
+                    </div>
+                    <div class="bg-green-500/10 border border-green-500/30 px-6 py-3 rounded-2xl text-green-500 font-black text-xs uppercase">
+                        Identificado
+                    </div>
+                </div>
+
+                <div class="p-8 grid md:grid-cols-3 gap-12">
+                    <div class="md:col-span-2 space-y-10">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                            <div><p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Marca</p><p id="resMake" class="text-3xl font-black text-slate-800 uppercase italic">---</p></div>
+                            <div><p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Modelo</p><p id="resModel" class="text-3xl font-black text-slate-800 uppercase italic">---</p></div>
+                            <div><p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Año</p><p id="resYear" class="text-3xl font-black text-slate-800">---</p></div>
+                            <div><p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Estado</p><p class="text-3xl font-black text-green-600 italic">SIN CARGAS</p></div>
+                        </div>
+
+                        <div class="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-center">
+                            <i class="fas fa-lock text-slate-300 text-4xl mb-4"></i>
+                            <p class="text-slate-800 font-black uppercase text-xs tracking-widest">Historial completo bloqueado</p>
+                            <p class="text-slate-400 text-[10px] mt-2">Realiza el pago para ver siniestros y dueños anteriores.</p>
                         </div>
                     </div>
 
-                    <div class="bg-slate-50 p-10 rounded-3xl border-2 border-dashed border-gray-200 flex flex-col items-center justify-center text-center relative overflow-hidden group">
-                        <i class="fas fa-lock text-slate-300 text-5xl mb-4 transition-colors group-hover:text-blue-600"></i>
-                        <p class="font-black text-slate-800 text-sm uppercase tracking-widest italic">Historial de Siniestros y Propietarios Bloqueado</p>
-                        <p class="text-slate-400 text-[10px] mt-2 font-bold italic">Se requiere Informe Premium para desbloquear estos datos</p>
-                    </div>
-                </div>
-
-                <div class="bg-slate-900 p-8 rounded-3xl text-white shadow-2xl flex flex-col justify-between border-t-4 border-blue-500">
-                    <div class="text-center">
-                        <p class="text-blue-400 font-bold uppercase text-[10px] tracking-widest mb-4">Descarga el PDF Completo</p>
-                        <div class="text-5xl font-black mb-6">9,95€</div>
-                        <ul class="text-left space-y-4 text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-8">
-                            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500"></i> Kilómetros Reales</li>
-                            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500"></i> Accidentes Registrados</li>
-                            <li class="flex items-center gap-3"><i class="fas fa-check-circle text-blue-500"></i> Transferencias Dueño</li>
-                        </ul>
-                    </div>
-
-                    <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-                        <input type="hidden" name="cmd" value="_xclick">
-                        <input type="hidden" name="business" value="PON_TU_EMAIL_AQUI@GMAIL.COM">
-                        <input type="hidden" name="item_name" value="Informe Premium Matricula">
-                        <input type="hidden" name="amount" value="9.95">
-                        <input type="hidden" name="currency_code" value="EUR">
-                        <button type="submit" class="w-full bg-blue-600 text-white py-5 rounded-2xl font-black uppercase text-xs tracking-widest hover:bg-blue-700 transition shadow-xl active:scale-95">
-                            Pagar con PayPal <i class="fab fa-paypal ml-2"></i>
-                        </button>
-                    </form>
-                    <div class="mt-4 flex justify-center gap-4 opacity-30 text-xl grayscale">
-                        <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i>
+                    <div class="bg-blue-600 p-8 rounded-3xl text-white shadow-xl flex flex-col justify-between">
+                        <div class="text-center">
+                            <p class="text-5xl font-black mb-6">9.95€</p>
+                            <ul class="text-left text-xs space-y-3 mb-8 opacity-90 font-bold">
+                                <li><i class="fas fa-check mr-2"></i> Kilómetros Reales</li>
+                                <li><i class="fas fa-check mr-2"></i> Accidentes Graves</li>
+                                <li><i class="fas fa-check mr-2"></i> Informe PDF</li>
+                            </ul>
+                        </div>
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                            <input type="hidden" name="cmd" value="_xclick">
+                            <input type="hidden" name="business" value="TU_EMAIL@GMAIL.COM">
+                            <input type="hidden" name="item_name" value="Informe Premium Matricula">
+                            <input type="hidden" name="amount" value="9.95">
+                            <input type="hidden" name="currency_code" value="EUR">
+                            <button type="submit" class="w-full bg-white text-blue-600 py-4 rounded-xl font-black uppercase text-sm shadow-xl">
+                                Pagar con PayPal
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <footer class="py-12 text-center text-gray-400 text-[10px] font-bold uppercase tracking-widest">
-        <p>&copy; 2024 MatriCheck - Datos Oficiales bajo licencia DGT / API RegCheck</p>
-    </footer>
 
     <script>
         const REGCHECK_USER = "MrManuwT"; 
 
-        async function ejecutarConsulta() {
+        async function consultarDGT() {
             const plate = document.getElementById('plateInput').value.trim().toUpperCase();
             if (plate.length < 4) return alert("Introduce una matrícula válida.");
 
-            const section = document.getElementById('resultsSection');
+            const section = document.getElementById('resultSection');
             const loader = document.getElementById('loader');
             const errorBox = document.getElementById('errorBox');
             const reportCard = document.getElementById('reportCard');
@@ -147,10 +140,8 @@
             errorBox.classList.add('hidden');
             reportCard.classList.add('hidden');
 
-            window.scrollTo({ top: section.offsetTop - 50, behavior: 'smooth' });
-
             try {
-                // Operación CheckSpain según documentación técnica
+                // Endpoint directo de datos (No el .asmx de pruebas)
                 const apiUrl = `https://www.regcheck.org.uk/api/reg.asmx/CheckSpain?registration=${plate}&username=${REGCHECK_USER}`;
                 const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
                 
@@ -159,17 +150,15 @@
                 
                 const parser = new DOMParser();
                 const xmlDoc = parser.parseFromString(result.contents, "text/xml");
-                const vehicleNode = xmlDoc.getElementsByTagName("vehicleJson")[0];
+                const vehicleJson = xmlDoc.getElementsByTagName("vehicleJson")[0]?.textContent;
 
-                if (!vehicleNode || vehicleNode.textContent === "") {
-                    // Buscar el motivo real del fallo en la etiqueta Description
-                    const errorDesc = xmlDoc.getElementsByTagName("Description")[0]?.textContent || "Sin créditos o error en el servidor";
-                    throw new Error(errorDesc);
+                if (!vehicleJson) {
+                    const desc = xmlDoc.getElementsByTagName("Description")[0]?.textContent || "Error desconocido";
+                    throw new Error(desc);
                 }
 
-                const data = JSON.parse(vehicleNode.textContent);
+                const data = JSON.parse(vehicleJson);
 
-                // Inyectar datos reales
                 document.getElementById('resPlate').innerText = plate;
                 document.getElementById('resMake').innerText = data.MakeDescription || "No disponible";
                 document.getElementById('resModel').innerText = data.ModelDescription || "No disponible";
@@ -179,10 +168,9 @@
                 reportCard.classList.remove('hidden');
 
             } catch (error) {
-                console.error("Error detectado:", error);
                 loader.classList.add('hidden');
                 errorBox.classList.remove('hidden');
-                document.getElementById('errorMessage').innerText = "Respuesta de la API: " + error.message;
+                document.getElementById('errorMessage').innerText = error.message;
             }
         }
     </script>
