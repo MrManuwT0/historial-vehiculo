@@ -3,179 +3,114 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informe Matrícula | Datos Oficiales DGT</title>
+    <title>Informe Matrícula | MATRISPAIN</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .plate-font { font-family: 'Courier New', Courier, monospace; letter-spacing: 2px; }
-        .bg-carbon { background-color: #111; background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
-        .glass { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
+        .plate-font { font-family: 'Courier New', Courier, monospace; font-weight: bold; }
+        .euro-plate { border-left: 35px solid #003399; position: relative; }
+        .euro-plate::before { content: "E"; color: white; position: absolute; left: -25px; top: 15px; font-weight: bold; font-size: 20px; }
     </style>
 </head>
-<body class="bg-slate-50 font-sans text-slate-900">
+<body class="bg-gray-100">
 
-    <nav class="bg-white border-b py-4 shadow-sm sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-car-on text-blue-600 text-3xl"></i>
-                <span class="text-2xl font-black tracking-tighter uppercase">MATRI<span class="text-blue-600">SPAIN</span></span>
-            </div>
-            <div class="flex items-center gap-6">
-                <span class="hidden md:inline text-xs font-bold text-slate-400 uppercase tracking-widest">Servicio Oficial de Consultas</span>
-                <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold text-sm hover:bg-blue-700 transition">ACCESO</a>
-            </div>
+    <nav class="bg-white shadow-md p-4">
+        <div class="max-w-5xl mx-auto flex justify-between items-center">
+            <h1 class="font-black text-2xl tracking-tighter">MATRI<span class="text-blue-600">SPAIN</span></h1>
+            <span class="text-xs font-bold text-gray-400">DATOS REALES DGT</span>
         </div>
     </nav>
 
-    <header class="bg-slate-900 py-24 px-6 text-center relative bg-carbon border-b-4 border-blue-600">
-        <div class="max-w-4xl mx-auto relative z-10">
-            <h1 class="text-white text-4xl md:text-6xl font-black mb-6 leading-tight">Historial de Matrícula DGT</h1>
-            <p class="text-slate-400 text-xl mb-12">Introduce la placa para conocer marca, modelo, año y alertas legales.</p>
-
-            <div class="bg-white p-3 rounded-2xl shadow-2xl flex flex-col md:flex-row gap-3 border-4 border-white/10">
-                <div class="flex-grow flex items-center border-2 border-slate-200 rounded-xl overflow-hidden focus-within:border-blue-500 transition">
-                    <div class="bg-blue-700 text-white px-4 py-4 flex flex-col items-center justify-center border-r-2 border-slate-200">
-                        <span class="text-[10px] font-bold leading-none">EU</span>
-                        <span class="font-black text-xl">E</span>
-                    </div>
-                    <input id="plateInput" type="text" placeholder="1234BBB" 
-                           class="w-full p-4 text-3xl font-bold plate-font uppercase outline-none text-slate-800 placeholder:text-slate-200">
-                </div>
-                <button onclick="ejecutarConsulta()" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-12 py-5 rounded-xl transition-all shadow-xl active:scale-95 uppercase tracking-tighter text-lg">
-                    Generar Informe
-                </button>
-            </div>
-            
-            <div class="mt-8 flex flex-wrap justify-center gap-8 text-slate-500 font-bold uppercase text-[10px] tracking-[3px]">
-                <span><i class="fas fa-database text-blue-500 mr-2"></i>DGT Oficial</span>
-                <span><i class="fas fa-shield-halved text-green-500 mr-2"></i>RGPD Protegido</span>
-                <span><i class="fas fa-bolt text-yellow-500 mr-2"></i>Resultado Instantáneo</span>
-            </div>
+    <header class="bg-slate-900 py-20 text-center text-white">
+        <h2 class="text-4xl font-extrabold mb-6">Consulta historial por Matrícula</h2>
+        <div class="max-w-md mx-auto bg-white p-2 rounded-lg flex shadow-2xl">
+            <input id="plateInput" type="text" placeholder="1234BBB" class="euro-plate flex-grow p-4 text-2xl text-black outline-none plate-font uppercase">
+            <button onclick="consultarDGT()" class="bg-blue-600 px-6 font-bold hover:bg-blue-700 transition">BUSCAR</button>
         </div>
+        <p class="mt-4 text-slate-400 text-sm italic">Atención: Requiere cuenta activa en RegCheck</p>
     </header>
 
-    <section id="resultsSection" class="max-w-5xl mx-auto py-16 px-6 hidden">
-        
-        <div id="loader" class="text-center py-20 bg-white rounded-3xl border border-slate-200 shadow-sm">
-            <div class="inline-block animate-spin text-blue-600 text-6xl mb-6"><i class="fas fa-circle-notch"></i></div>
-            <h3 class="text-2xl font-black text-slate-800 uppercase italic tracking-widest">Consultando Registro Nacional...</h3>
-            <p class="text-slate-400 mt-2 font-medium">Buscando datos técnicos en tiempo real.</p>
+    <section id="resultSection" class="max-w-3xl mx-auto mt-10 p-6 hidden">
+        <div id="loader" class="text-center py-10">
+            <div class="animate-spin text-4xl mb-4">🔄</div>
+            <p>Conectando con el servidor de Tráfico...</p>
         </div>
 
-        <div id="reportCard" class="hidden">
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
-                
-                <div class="bg-slate-800 p-8 text-white flex flex-col md:flex-row justify-between items-center border-b-8 border-blue-600">
-                    <div>
-                        <p class="text-blue-400 font-bold uppercase text-[10px] mb-1 tracking-[4px]">Verificación Realizada</p>
-                        <h2 id="resPlate" class="text-6xl font-mono font-black tracking-[8px]">---</h2>
-                    </div>
-                    <div class="mt-6 md:mt-0 flex items-center gap-4 bg-green-500/10 border border-green-500/30 px-6 py-3 rounded-2xl">
-                        <i class="fas fa-certificate text-green-500 text-3xl"></i>
-                        <span class="font-black uppercase text-xs text-green-500 tracking-widest leading-none">Vehículo<br>Identificado</span>
-                    </div>
-                </div>
+        <div id="errorBox" class="bg-red-100 border-l-4 border-red-500 p-4 text-red-700 hidden mb-6">
+            <p class="font-bold">Error detectado:</p>
+            <p id="errorMessage"></p>
+        </div>
 
-                <div class="p-8 grid md:grid-cols-3 gap-12">
-                    
-                    <div class="md:col-span-2 space-y-10">
-                        <div>
-                            <h3 class="text-slate-400 font-black uppercase text-[10px] tracking-widest border-b border-slate-100 pb-4 mb-8">Especificaciones Técnicas</h3>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-10">
-                                <div><p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Marca / Constructor</p><p id="resMake" class="text-3xl font-black text-slate-800 italic uppercase tracking-tighter">---</p></div>
-                                <div><p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Modelo / Serie</p><p id="resModel" class="text-3xl font-black text-slate-800 italic uppercase tracking-tighter">---</p></div>
-                                <div><p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Año Matriculación</p><p id="resYear" class="text-3xl font-black text-slate-800">---</p></div>
-                                <div><p class="text-[10px] text-slate-400 uppercase font-bold mb-1">Cargas / Embargos</p><p class="text-3xl font-black text-green-600 italic">LIMPIO</p></div>
-                            </div>
-                        </div>
-
-                        <div class="p-8 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 text-center relative overflow-hidden group">
-                            <div class="relative z-10">
-                                <i class="fas fa-lock text-slate-300 text-4xl mb-4 group-hover:text-blue-500 transition"></i>
-                                <p class="text-slate-800 font-black uppercase text-xs tracking-widest">Historial de Siniestros y Propietarios</p>
-                                <p class="text-slate-400 text-[10px] mt-2 italic font-medium">Contenido restringido - Requiere Informe Premium</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-blue-600 p-8 rounded-3xl text-white shadow-2xl flex flex-col justify-between transform transition hover:scale-[1.02]">
-                        <div class="text-center">
-                            <span class="bg-white/20 text-[10px] px-4 py-1 rounded-full font-black uppercase tracking-widest">Informe Completo</span>
-                            <p class="text-6xl font-black my-6">8.95€</p>
-                            <div class="space-y-4 text-left border-t border-white/20 pt-6">
-                                <p class="text-xs font-bold flex items-center gap-3"><i class="fas fa-check-double"></i> Kilometraje verificado</p>
-                                <p class="text-xs font-bold flex items-center gap-3"><i class="fas fa-check-double"></i> Accidentes graves</p>
-                                <p class="text-xs font-bold flex items-center gap-3"><i class="fas fa-check-double"></i> Historial de Dueños</p>
-                                <p class="text-xs font-bold flex items-center gap-3"><i class="fas fa-check-double"></i> PDF descargable</p>
-                            </div>
-                        </div>
-                        <button onclick="alert('Conectando con Stripe...')" class="w-full mt-8 bg-white text-blue-600 py-5 rounded-2xl font-black uppercase text-sm shadow-xl hover:bg-slate-100 transition tracking-tighter">
-                            Descargar Informe
-                        </button>
-                    </div>
-                </div>
+        <div id="reportBox" class="bg-white rounded-xl shadow-lg overflow-hidden hidden border border-gray-200">
+            <div class="bg-slate-800 p-6 text-white flex justify-between items-center">
+                <span id="resPlate" class="text-3xl font-mono font-bold tracking-widest"></span>
+                <span class="bg-green-500 px-3 py-1 rounded text-xs font-bold">REGISTRO ENCONTRADO</span>
+            </div>
+            <div class="p-8 grid grid-cols-2 gap-6">
+                <div><label class="text-gray-400 text-xs block">MARCA</label><span id="resMake" class="text-xl font-bold uppercase"></span></div>
+                <div><label class="text-gray-400 text-xs block">MODELO</label><span id="resModel" class="text-xl font-bold uppercase"></span></div>
+                <div><label class="text-gray-400 text-xs block">AÑO</label><span id="resYear" class="text-xl font-bold"></span></div>
+                <div><label class="text-gray-400 text-xs block">MOTOR</label><span class="text-xl font-bold uppercase italic text-blue-600">Ver en informe completo</span></div>
+            </div>
+            <div class="p-6 bg-gray-50 text-center border-t">
+                <p class="text-sm text-gray-500 mb-4 font-semibold italic">¿Quieres ver multas, embargos y accidentes de este coche?</p>
+                <button class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold shadow-lg">DESCARGAR INFORME PDF (8.95€)</button>
             </div>
         </div>
     </section>
 
-    <footer class="py-12 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest">
-        &copy; 2024 MatriSpain - Datos Proporcionados bajo licencia de API RegCheck
-    </footer>
-
     <script>
-        // CONFIGURACIÓN INTEGRADA
         const REGCHECK_USER = "MrManuwT"; 
 
-        async function ejecutarConsulta() {
+        async function consultarDGT() {
             const plate = document.getElementById('plateInput').value.trim().toUpperCase();
-            if (plate.length < 4) return alert("Por favor, introduce una matrícula válida.");
+            if(!plate) return alert("Escribe una matrícula.");
 
-            const section = document.getElementById('resultsSection');
+            const resSection = document.getElementById('resultSection');
             const loader = document.getElementById('loader');
-            const card = document.getElementById('reportCard');
+            const errorBox = document.getElementById('errorBox');
+            const reportBox = document.getElementById('reportBox');
 
-            section.classList.remove('hidden');
+            resSection.classList.remove('hidden');
             loader.classList.remove('hidden');
-            card.classList.add('hidden');
-
-            window.scrollTo({ top: section.offsetTop - 50, behavior: 'smooth' });
+            errorBox.classList.add('hidden');
+            reportBox.classList.add('hidden');
 
             try {
                 // Operación CheckSpain de RegCheck
-                const apiUrl = `https://www.regcheck.org.uk/api/reg.asmx/CheckSpain?registration=${plate}&username=${REGCHECK_USER}`;
+                const url = `https://www.regcheck.org.uk/api/reg.asmx/CheckSpain?registration=${plate}&username=${REGCHECK_USER}`;
                 
-                // Proxy para evitar bloqueo CORS
-                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+                // Usamos AllOrigins para saltar el bloqueo CORS del navegador
+                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`);
+                const json = await response.json();
                 
-                const response = await fetch(proxyUrl);
-                const result = await response.json();
-                
-                // Parseo del XML
                 const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(result.contents, "text/xml");
-                const vehicleJson = xmlDoc.getElementsByTagName("vehicleJson")[0].textContent;
-                const data = JSON.parse(vehicleJson);
+                const xmlDoc = parser.parseFromString(json.contents, "text/xml");
+                
+                // Intentamos capturar el JSON del vehículo
+                const vehicleNode = xmlDoc.getElementsByTagName("vehicleJson")[0];
 
-                // Asignar datos reales al informe
+                if (!vehicleNode || vehicleNode.textContent === "") {
+                    // Si el nodo está vacío, miramos si hay un mensaje de error en el XML
+                    const errorDesc = xmlDoc.getElementsByTagName("Description")[0]?.textContent || "Sin créditos o Matrícula no encontrada";
+                    throw new Error(errorDesc);
+                }
+
+                const data = JSON.parse(vehicleNode.textContent);
+
+                // MOSTRAR DATOS REALES
                 document.getElementById('resPlate').innerText = plate;
-                document.getElementById('resMake').innerText = data.MakeDescription || "Desconocido";
-                document.getElementById('resModel').innerText = data.ModelDescription || "Desconocido";
-                document.getElementById('resYear').innerText = data.RegistrationYear || "---";
+                document.getElementById('resMake').innerText = data.MakeDescription || "No disponible";
+                document.getElementById('resModel').innerText = data.ModelDescription || "No disponible";
+                document.getElementById('resYear').innerText = data.RegistrationYear || "No disponible";
 
                 loader.classList.add('hidden');
-                card.classList.remove('hidden');
+                reportBox.classList.remove('hidden');
 
-            } catch (error) {
-                console.error("Error API:", error);
-                // Si la API no tiene saldo o el usuario es incorrecto, mostramos el demo visual
-                setTimeout(() => {
-                    document.getElementById('resPlate').innerText = plate;
-                    document.getElementById('resMake').innerText = "Seat";
-                    document.getElementById('resModel').innerText = "Ibiza FR";
-                    document.getElementById('resYear').innerText = "2021";
-                    loader.classList.add('hidden');
-                    card.classList.remove('hidden');
-                }, 1500);
+            } catch (err) {
+                loader.classList.add('hidden');
+                errorBox.classList.remove('hidden');
+                document.getElementById('errorMessage').innerText = "La API de RegCheck respondió: " + err.message + ". Revisa si tienes créditos en tu cuenta 'MrManuwT'.";
             }
         }
     </script>
