@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HISTORIALAUTO | Informe Premium</title>
+    <title>HISTORIALAUTO | Informe Elite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -27,7 +27,7 @@
     <nav class="p-6 flex justify-between items-center border-b border-white/5 bg-black/20 backdrop-blur-md sticky top-0 z-50">
         <div class="flex items-center gap-2">
             <i class="fas fa-car-side text-blue-500 text-3xl"></i>
-            <span class="text-2xl font-black tracking-tighter uppercase italic">HISTORIAL<span class="text-blue-500">AUTO</span></span>
+            <span class="text-2xl font-black tracking-tighter uppercase italic text-white">HISTORIAL<span class="text-blue-500">AUTO</span></span>
         </div>
         <div class="text-[10px] font-bold text-gray-500 tracking-[0.4em] uppercase">Base de Datos DGT España</div>
     </nav>
@@ -42,7 +42,7 @@
                     <div class="bg-blue-800 text-white px-2 py-1 rounded-sm text-[9px] font-bold flex flex-col leading-none mr-3">
                         <span>EU</span><span>E</span>
                     </div>
-                    <input id="plateInput" type="text" placeholder="1234BBB" 
+                    <input id="plateInput" type="text" placeholder="EJ: 1234BBB" 
                            class="w-full py-4 text-2xl font-black text-slate-900 outline-none uppercase plate-font">
                 </div>
                 <button onclick="consultarVehiculo()" class="bg-blue-600 hover:bg-blue-700 btn-glow text-white px-12 py-5 rounded-xl font-black uppercase text-lg transition-all active:scale-95">
@@ -55,66 +55,73 @@
     <section id="resultsSection" class="max-w-6xl mx-auto py-12 px-6 hidden">
         <div id="loader" class="text-center py-20 glass rounded-3xl">
             <div class="animate-spin text-blue-500 text-6xl mb-6 inline-block"><i class="fas fa-circle-notch"></i></div>
-            <p class="font-bold text-gray-400 uppercase tracking-widest text-xs">Extrayendo datos técnicos de la DGT...</p>
+            <p class="font-bold text-gray-400 uppercase tracking-widest text-xs">Conectando con Servidores de Tráfico...</p>
         </div>
 
         <div id="reportCard" class="hidden">
             <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl">
                 <div class="bg-white/5 p-10 flex flex-col md:flex-row justify-between items-center premium-border">
-                    <div class="plate-style bg-white px-8 py-3 rounded border-2 border-slate-300 shadow-inner">
+                    <div class="bg-white px-8 py-3 rounded border-2 border-slate-300 shadow-inner">
                         <h2 id="resPlate" class="text-5xl font-black text-slate-800 plate-font uppercase">---</h2>
                     </div>
-                    <div class="text-right">
-                        <p class="text-blue-500 font-bold uppercase text-[10px] tracking-widest mb-1">Informe Técnico Generado</p>
-                        <p class="text-white font-black italic uppercase tracking-tighter" id="resDescription">---</p>
+                    <div class="text-right mt-4 md:mt-0">
+                        <p class="text-blue-500 font-bold uppercase text-[10px] tracking-widest mb-1">Resultado de Identificación</p>
+                        <p class="text-white font-black italic uppercase tracking-tighter text-xl" id="resDescription">---</p>
                     </div>
                 </div>
 
-                <div class="p-10 grid md:grid-cols-4 gap-8">
-                    <div class="bg-white/5 p-6 rounded-2xl">
+                <div class="p-10 grid grid-cols-1 md:grid-cols-4 gap-6">
+                    
+                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                         <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Marca</p>
                         <p id="resMake" class="text-2xl font-black italic text-white uppercase">---</p>
                     </div>
-                    <div class="bg-white/5 p-6 rounded-2xl">
+
+                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                         <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Modelo</p>
                         <p id="resModel" class="text-2xl font-black italic text-white uppercase">---</p>
                     </div>
-                    <div class="bg-white/5 p-6 rounded-2xl">
+
+                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
                         <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Año Registro</p>
-                        <p id="resYear" class="text-2xl font-black text-white">---</p>
-                    </div>
-                    <div class="bg-white/5 p-6 rounded-2xl border border-blue-500/30">
-                        <p class="text-[10px] text-blue-400 font-black uppercase mb-2 tracking-widest">Potencia (CV)</p>
-                        <p id="resPower" class="text-2xl font-black text-blue-400 uppercase">---</p>
+                        <p id="resYear" class="text-2xl font-black text-white italic">---</p>
                     </div>
 
-                    <div class="bg-white/5 p-6 rounded-2xl flex flex-col justify-center">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Cilindrada</p>
-                        <p id="resEngine" class="text-xl font-bold text-white">---</p>
+                    <div class="bg-blue-600/10 p-6 rounded-2xl border border-blue-500/30">
+                        <p class="text-[10px] text-blue-400 font-black uppercase mb-2 tracking-widest">Potencia</p>
+                        <p id="resPower" class="text-2xl font-black text-blue-400 uppercase italic">---</p>
                     </div>
-                    <div class="bg-white/5 p-6 rounded-2xl flex flex-col justify-center border border-dashed border-gray-700">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest italic">Nº Propietarios</p>
+
+                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
+                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Cilindrada</p>
+                        <p id="resEngine" class="text-xl font-bold text-white italic">---</p>
+                    </div>
+
+                    <div class="bg-white/5 p-6 rounded-2xl border border-dashed border-gray-700 opacity-60">
+                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest italic">Historial Dueños</p>
                         <p class="lock-text"><i class="fas fa-lock mr-2"></i> Bloqueado</p>
                     </div>
-                    <div class="bg-white/5 p-6 rounded-2xl flex flex-col justify-center border border-dashed border-gray-700">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest italic">Cargas / Embargos</p>
-                        <p class="lock-text text-yellow-500/80"><i class="fas fa-exclamation-triangle mr-2"></i> Ver Informe</p>
+
+                    <div class="bg-white/5 p-6 rounded-2xl border border-dashed border-gray-700 opacity-60">
+                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest italic">Cargas Legales</p>
+                        <p class="lock-text text-yellow-500/60"><i class="fas fa-exclamation-triangle mr-2"></i> Ver Informe</p>
                     </div>
                     
-                    <div class="bg-blue-600 p-6 rounded-3xl text-center shadow-xl md:row-span-1 flex flex-col justify-center btn-glow cursor-pointer">
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+                    <div class="bg-blue-600 p-6 rounded-3xl text-center shadow-xl btn-glow transition-all">
+                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                             <input type="hidden" name="cmd" value="_xclick">
-                            <input type="hidden" name="business" value="amsigcha2@gmail.com">
-                            <input type="hidden" name="item_name" id="paypalItemName" value="Informe Completo">
+                            <input type="hidden" name="business" value="mrmanuwthc@gmail.com">
+                            <input type="hidden" name="item_name" id="paypalItemName" value="Informe Premium">
                             <input type="hidden" name="amount" value="9.95">
                             <input type="hidden" name="currency_code" value="EUR">
-                            <button type="submit" class="w-full">
-                                <p class="text-[10px] font-black uppercase mb-1">Descargar Todo</p>
-                                <p class="text-3xl font-black italic">9.95€</p>
-                                <p class="text-[8px] font-bold opacity-80 mt-2 uppercase tracking-tighter">Accidentes + Dueños + ITV</p>
+                            <button type="submit" class="w-full h-full">
+                                <p class="text-[10px] font-black uppercase mb-1">Informe Completo</p>
+                                <p class="text-4xl font-black italic">9.95€</p>
+                                <p class="text-[8px] font-bold opacity-80 mt-1 uppercase tracking-tighter">Descargar PDF Oficial</p>
                             </button>
                         </form>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -123,10 +130,11 @@
     <script>
         const USERNAME = "MrManuwT";
 
-        function extraerDato(dato) {
-            if (!dato) return "---";
+        function extraerTextoDato(dato) {
+            if (!dato) return "NO DISPONIBLE";
+            if (typeof dato === 'string') return dato.toUpperCase();
             if (typeof dato === 'object') {
-                return (dato.CurrentTextValue || dato.Value || Object.values(dato)[0] || "---").toString().toUpperCase();
+                return (dato.CurrentTextValue || dato.Value || dato.Description || Object.values(dato)[0] || "CONSULTAR").toString().toUpperCase();
             }
             return dato.toString().toUpperCase();
         }
@@ -148,28 +156,31 @@
                 const xmlDoc = parser.parseFromString(json.contents, "text/xml");
                 const vehicleJson = xmlDoc.getElementsByTagName("vehicleJson")[0]?.textContent;
 
-                if (!vehicleJson) throw new Error("No encontrado");
+                if (!vehicleJson) throw new Error("Acceso denegado o créditos insuficientes.");
 
                 const data = JSON.parse(vehicleJson);
 
-                // Inyección de Datos Dinámicos
+                // Inyección de Datos con el Fix de [object Object]
                 document.getElementById('resPlate').innerText = plate;
-                document.getElementById('resMake').innerText = extraerDato(data.Make || data.MakeDescription);
-                document.getElementById('resModel').innerText = extraerDato(data.Model || data.ModelDescription);
-                document.getElementById('resYear').innerText = extraerDato(data.RegistrationYear || data.Year);
+                document.getElementById('resMake').innerText = extraerTextoDato(data.Make || data.MakeDescription);
+                document.getElementById('resModel').innerText = extraerTextoDato(data.Model || data.ModelDescription);
+                document.getElementById('resYear').innerText = extraerTextoDato(data.RegistrationYear || data.Year);
                 
-                // Extraer CV y Cilindrada (campos comunes en España de RegCheck)
-                document.getElementById('resPower').innerText = (data.HorsePower || data.PowerKW || "Ver PDF") + " CV";
-                document.getElementById('resEngine').innerText = (data.EngineSize || "---") + " cc";
-                document.getElementById('resDescription').innerText = extraerDato(data.Description);
+                // Datos Técnicos Extra
+                const cv = data.HorsePower || data.PowerKW || "---";
+                const cc = data.EngineSize || "---";
+                document.getElementById('resPower').innerText = cv + " CV";
+                document.getElementById('resEngine').innerText = cc + " CC";
+                document.getElementById('resDescription').innerText = extraerTextoDato(data.Description);
                 
-                document.getElementById('paypalItemName').value = "Informe Completo: " + plate;
+                // Actualizar PayPal
+                document.getElementById('paypalItemName').value = "Informe Matrícula: " + plate;
 
                 document.getElementById('loader').classList.add('hidden');
                 document.getElementById('reportCard').classList.remove('hidden');
 
             } catch (err) {
-                alert("Error al consultar la matrícula. Revisa los créditos o la conexión.");
+                alert("Error: " + err.message);
                 document.getElementById('resultsSection').classList.add('hidden');
             }
         }
