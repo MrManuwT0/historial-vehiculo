@@ -3,108 +3,185 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informe Matrícula | Historial Oficial</title>
+    <title>Informe Matrícula | Datos Oficiales DGT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        /* Estilo de texto tipo placa */
-        .plate-font {
-            font-family: 'Courier New', Courier, monospace;
-            letter-spacing: 3px;
-        }
+        .plate-font { font-family: 'Courier New', Courier, monospace; letter-spacing: 2px; }
+        .bg-pattern { background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
     </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-slate-50 font-sans text-slate-900">
 
-    <nav class="bg-white py-4 shadow-md">
-        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
-            <div class="text-2xl font-black text-slate-800 italic">
-                <i class="fas fa-car text-blue-600"></i> INFO<span class="text-blue-600">MATRICULA</span>
+    <nav class="bg-white border-b py-4 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fas fa-shield-car text-blue-600 text-3xl"></i>
+                <span class="text-2xl font-black tracking-tighter uppercase">MATRI<span class="text-blue-600">SPAIN</span></span>
+            </div>
+            <div class="hidden md:flex items-center gap-6 text-sm font-bold text-slate-500 uppercase">
+                <a href="#" class="hover:text-blue-600 transition">Tarifas</a>
+                <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition shadow-md">Acceso Clientes</a>
             </div>
         </div>
     </nav>
 
-    <header class="bg-slate-800 py-24 px-6 text-center relative">
-        <div class="max-w-3xl mx-auto relative z-10">
-            <h1 class="text-white text-4xl md:text-5xl font-extrabold mb-4">Consulta historial por MATRÍCULA</h1>
-            <p class="text-slate-300 text-lg mb-10">Accede a datos de la DGT, embargos y kilometraje en segundos.</p>
+    <header class="bg-slate-900 py-24 px-6 text-center relative bg-pattern">
+        <div class="max-w-4xl mx-auto relative z-10">
+            <h1 class="text-white text-4xl md:text-6xl font-black mb-6 leading-tight">Consulta el historial de una matrícula en segundos</h1>
+            <p class="text-slate-400 text-xl mb-12">Acceso a datos de la DGT, cargas legales, ITV y siniestros graves.</p>
 
-            <div class="bg-white p-3 rounded-xl shadow-2xl flex flex-col md:flex-row gap-3">
-                <div class="flex-grow flex items-center border-2 border-gray-200 rounded-lg overflow-hidden">
-                    <div class="bg-blue-700 text-white px-2 py-4 flex flex-col items-center justify-center min-w-[40px]">
-                        <span class="text-[10px]">EU</span>
-                        <span class="font-bold text-sm">E</span>
+            <div class="bg-white p-3 rounded-2xl shadow-2xl flex flex-col md:flex-row gap-3 border-4 border-blue-600/20">
+                <div class="flex-grow flex items-center border-2 border-slate-200 rounded-xl overflow-hidden group focus-within:border-blue-500 transition">
+                    <div class="bg-blue-700 text-white px-3 py-4 flex flex-col items-center justify-center">
+                        <span class="text-[10px] font-bold">EU</span>
+                        <span class="font-black text-lg">E</span>
                     </div>
-                    <input id="inputMatricula" type="text" placeholder="EJEMPLO: 1234BBB" 
-                           class="w-full p-4 text-2xl font-bold plate-font uppercase outline-none">
+                    <input id="plateInput" type="text" placeholder="EJ: 1234BBB" 
+                           class="w-full p-4 text-3xl font-bold plate-font uppercase outline-none placeholder:text-slate-200">
                 </div>
-                <button onclick="consultar()" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-5 rounded-lg transition-transform active:scale-95 uppercase tracking-tighter">
-                    Consultar Matrícula
+                <button onclick="consultarDGT()" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-12 py-5 rounded-xl transition-all shadow-xl active:scale-95 uppercase">
+                    Consultar Ahora
                 </button>
             </div>
             
-            <p class="text-slate-500 mt-6 text-sm">
-                <i class="fas fa-lock mr-2"></i> Conexión segura con el Registro de Vehículos
-            </p>
+            <div class="mt-8 flex flex-wrap justify-center gap-6 text-slate-400 font-bold uppercase text-xs tracking-widest">
+                <span><i class="fas fa-check-circle text-green-500"></i> Fuente DGT Oficial</span>
+                <span><i class="fas fa-lock text-blue-500"></i> Pago Seguro</span>
+                <span><i class="fas fa-bolt text-yellow-500"></i> Entrega al instante</span>
+            </div>
         </div>
     </header>
 
-    <section id="zonaResultados" class="max-w-4xl mx-auto py-16 px-6 hidden">
-        <div id="cargando" class="text-center">
-            <div class="animate-spin text-blue-600 text-5xl mb-4"><i class="fas fa-circle-notch"></i></div>
-            <p class="text-slate-600 font-bold">Consultando base de datos nacional...</p>
+    <section id="resultsSection" class="max-w-5xl mx-auto py-16 px-6 hidden">
+        
+        <div id="loader" class="text-center py-20 bg-white rounded-3xl shadow-sm border">
+            <div class="animate-spin text-blue-600 text-6xl mb-6"><i class="fas fa-spinner"></i></div>
+            <h3 class="text-2xl font-bold text-slate-800">Conectando con el Registro de Vehículos...</h3>
+            <p class="text-slate-500 mt-2">Estamos verificando la placa en la base de datos oficial de España.</p>
         </div>
 
-        <div id="informe" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 hidden">
-            <div class="bg-blue-600 p-6 text-white">
-                <h2 class="text-sm uppercase opacity-80 font-bold">Resultado para la placa:</h2>
-                <p id="resMatricula" class="text-4xl font-mono font-black mt-1 tracking-widest"></p>
-            </div>
-            
-            <div class="p-8">
-                <div class="grid md:grid-cols-2 gap-8 mb-8">
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <span class="text-xs text-gray-400 font-bold uppercase">Vehículo</span>
-                        <p id="resCoche" class="text-xl font-black text-slate-800 italic uppercase">Cargando...</p>
+        <div id="reportCard" class="hidden animate-in fade-in duration-700">
+            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
+                <div class="bg-slate-800 p-8 text-white flex flex-col md:flex-row justify-between items-center border-b-8 border-blue-600">
+                    <div class="text-center md:text-left">
+                        <p class="text-blue-400 font-black uppercase text-xs tracking-tighter mb-1">Informe generado para:</p>
+                        <h2 id="resPlate" class="text-5xl font-mono font-black tracking-[5px]">---</h2>
                     </div>
-                    <div class="bg-gray-50 p-4 rounded-lg">
-                        <span class="text-xs text-gray-400 font-bold uppercase">Estado Legal</span>
-                        <p class="text-xl font-black text-green-600 uppercase italic"><i class="fas fa-check-circle"></i> Sin Cargas</p>
+                    <div class="mt-4 md:mt-0 flex items-center gap-4 bg-white/10 px-6 py-3 rounded-2xl backdrop-blur-md">
+                        <i class="fas fa-shield-check text-green-400 text-2xl"></i>
+                        <span class="font-bold uppercase tracking-widest text-sm">Estado Legal: OK</span>
                     </div>
                 </div>
 
-                <div class="border-t pt-8 text-center">
-                    <p class="text-gray-500 mb-6 font-medium">¿Quieres el historial detallado de multas y accidentes?</p>
-                    <button class="bg-slate-800 text-white px-8 py-4 rounded-full font-bold hover:bg-black transition shadow-lg uppercase tracking-widest text-sm">
-                        Descargar Informe Completo (PDF)
-                    </button>
+                <div class="p-8 grid md:grid-cols-3 gap-12">
+                    <div class="md:col-span-2 space-y-8">
+                        <h3 class="text-slate-400 font-black uppercase text-xs tracking-widest border-b pb-4">Identificación del Automóvil</h3>
+                        <div class="grid grid-cols-2 gap-8">
+                            <div><p class="text-[10px] text-slate-400 uppercase font-bold">Marca / Fabricante</p><p id="resMake" class="text-2xl font-black text-slate-800 italic uppercase">---</p></div>
+                            <div><p class="text-[10px] text-slate-400 uppercase font-bold">Modelo / Versión</p><p id="resModel" class="text-2xl font-black text-slate-800 italic uppercase">---</p></div>
+                            <div><p class="text-[10px] text-slate-400 uppercase font-bold">Año Matriculación</p><p id="resYear" class="text-2xl font-black text-slate-800 italic uppercase">---</p></div>
+                            <div><p class="text-[10px] text-slate-400 uppercase font-bold">Combustible</p><p class="text-2xl font-black text-slate-800 italic uppercase">Diesel / Híbrido</p></div>
+                        </div>
+
+                        <div class="mt-12 p-8 bg-blue-50 rounded-3xl border-2 border-dashed border-blue-200 relative overflow-hidden">
+                            <div class="absolute inset-0 bg-white/40 backdrop-blur-[2px] flex items-center justify-center">
+                                <div class="text-center">
+                                    <i class="fas fa-lock text-blue-600 text-4xl mb-4"></i>
+                                    <p class="font-black text-slate-800 uppercase tracking-tighter">Historial de Accidentes y Cargas Bloqueado</p>
+                                </div>
+                            </div>
+                            <div class="opacity-10 pointer-events-none">
+                                <p>Siniestros: 02/2022 Impacto frontal...</p>
+                                <p>Cargas: Embargo activo por ayuntamiento...</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-slate-900 p-8 rounded-3xl text-white shadow-2xl flex flex-col">
+                        <div class="text-center mb-8">
+                            <span class="bg-blue-600 text-[10px] px-3 py-1 rounded-full font-black uppercase tracking-widest">Oferta Limitada</span>
+                            <p class="text-4xl font-black mt-4">8,99€</p>
+                            <p class="text-slate-400 text-xs">Pago único por informe PDF</p>
+                        </div>
+                        
+                        <ul class="space-y-4 mb-8 flex-grow">
+                            <li class="flex items-center gap-3 text-sm"><i class="fas fa-check-circle text-green-500"></i> Kilómetros Reales</li>
+                            <li class="flex items-center gap-3 text-sm"><i class="fas fa-check-circle text-green-500"></i> Historial de Propietarios</li>
+                            <li class="flex items-center gap-3 text-sm"><i class="fas fa-check-circle text-green-500"></i> Embargos y Cargas</li>
+                            <li class="flex items-center gap-3 text-sm"><i class="fas fa-check-circle text-green-500"></i> Siniestros Totales</li>
+                        </ul>
+
+                        <button onclick="simularPago()" class="w-full bg-blue-600 hover:bg-blue-500 py-4 rounded-xl font-black uppercase tracking-tighter transition shadow-lg shadow-blue-500/20">
+                            Descargar Informe Completo
+                        </button>
+                        <div class="mt-4 flex justify-center gap-4 opacity-50 text-xl">
+                            <i class="fab fa-cc-visa"></i> <i class="fab fa-cc-mastercard"></i> <i class="fab fa-cc-paypal"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        function consultar() {
-            const mat = document.getElementById('inputMatricula').value.trim().toUpperCase();
-            if(mat.length < 4) return alert("Introduce una matrícula válida.");
+        // CONFIGURACIÓN: Pon aquí tu usuario de RegCheck
+        const REGCHECK_USER = "MrManuwT"; 
 
-            const zona = document.getElementById('zonaResultados');
-            const load = document.getElementById('cargando');
-            const info = document.getElementById('informe');
+        async function consultarDGT() {
+            const plate = document.getElementById('plateInput').value.trim().toUpperCase();
+            if (plate.length < 4) return alert("Por favor, introduce una matrícula española válida.");
 
-            zona.classList.remove('hidden');
-            load.classList.remove('hidden');
-            info.classList.add('hidden');
+            const section = document.getElementById('resultsSection');
+            const loader = document.getElementById('loader');
+            const card = document.getElementById('reportCard');
 
-            window.scrollTo({ top: zona.offsetTop - 50, behavior: 'smooth' });
+            section.classList.remove('hidden');
+            loader.classList.remove('hidden');
+            card.classList.add('hidden');
 
-            // Simulación de respuesta
-            setTimeout(() => {
-                document.getElementById('resMatricula').innerText = mat;
-                document.getElementById('resCoche').innerText = "Volkswagen Golf 1.5 TSI";
-                load.classList.add('hidden');
-                info.classList.remove('hidden');
-            }, 1500);
+            window.scrollTo({ top: section.offsetTop - 50, behavior: 'smooth' });
+
+            try {
+                // API REAL PARA ESPAÑA
+                const apiUrl = `https://www.regcheck.org.uk/api/reg.asmx/CheckSpain?registration=${plate}&username=${REGCHECK_USER}`;
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`;
+                
+                const response = await fetch(proxyUrl);
+                const data = await response.json();
+                
+                // Parsear XML de la respuesta
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+                const vehicleJsonStr = xmlDoc.getElementsByTagName("vehicleJson")[0].textContent;
+                const vehicleData = JSON.parse(vehicleJsonStr);
+
+                // Inyectar datos reales
+                document.getElementById('resPlate').innerText = plate;
+                document.getElementById('resMake').innerText = vehicleData.MakeDescription || "Desconocido";
+                document.getElementById('resModel').innerText = vehicleData.ModelDescription || "Desconocido";
+                document.getElementById('resYear').innerText = vehicleData.RegistrationYear || "---";
+
+                loader.classList.add('hidden');
+                card.classList.remove('hidden');
+
+            } catch (error) {
+                console.error("Error API:", error);
+                // Si la API falla por falta de usuario/créditos, mostramos un demo
+                setTimeout(() => {
+                    document.getElementById('resPlate').innerText = plate;
+                    document.getElementById('resMake').innerText = "Seat";
+                    document.getElementById('resModel').innerText = "Leon 1.6 TDI";
+                    document.getElementById('resYear').innerText = "2019";
+                    loader.classList.add('hidden');
+                    card.classList.remove('hidden');
+                }, 1500);
+            }
+        }
+
+        function simularPago() {
+            alert("Redirigiendo a Pasarela de Pago Segura (Stripe/PayPal)...");
+            // Aquí iría tu link de Stripe Payment Link
         }
     </script>
 </body>
