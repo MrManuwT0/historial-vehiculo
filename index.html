@@ -191,5 +191,41 @@
             }
         }
     </script>
+    <div id="legalModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[100] hidden items-center justify-center p-6">
+        <div class="bg-zinc-900 border border-white/10 p-8 rounded-3xl max-w-2xl w-full max-h-[80vh] overflow-y-auto text-sm text-gray-300">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl font-bold text-white uppercase tracking-tighter">Política de Privacidad y Cookies</h3>
+                <button onclick="toggleLegal()" class="text-white bg-white/10 hover:bg-white/20 w-8 h-8 rounded-full">&times;</button>
+            </div>
+            <div class="space-y-4 font-light">
+                <p><strong>1. Información General:</strong> HistorialAuto es una herramienta informativa que utiliza datos técnicos de libre acceso. No almacenamos datos de carácter personal de los usuarios que realizan consultas.</p>
+                
+                <p><strong>2. Google AdSense y Cookies:</strong> Este sitio utiliza Google AdSense para mostrar anuncios. Google, como proveedor tercero, utiliza cookies para publicar anuncios en este sitio basados en las visitas anteriores del usuario a este u otros sitios web.</p>
+                
+                <p><strong>3. Uso de Datos de Navegación:</strong> Los usuarios pueden inhabilitar el uso de la cookie de publicidad personalizada accediendo a <em>Preferencias de anuncios</em> de su cuenta de Google.</p>
+                
+                <p><strong>4. Enlaces a Terceros:</strong> Este sitio puede contener enlaces a otros sitios. No nos hacemos responsables de las prácticas de privacidad de dichos sitios ajenos.</p>
+                
+                <p><strong>5. Propiedad de los Datos:</strong> La información técnica mostrada proviene de bases de datos agregadas. HistorialAuto no garantiza la exactitud absoluta de los datos y recomienda cotejar con fuentes oficiales para trámites legales.</p>
+            </div>
+            <button onclick="toggleLegal()" class="w-full mt-8 bg-blue-600 py-3 rounded-xl font-bold text-white uppercase">Cerrar</button>
+        </div>
+    </div>
+
+    <script>
+        // Función para abrir/cerrar el modal legal
+        function toggleLegal() {
+            const modal = document.getElementById('legalModal');
+            modal.classList.toggle('hidden');
+            modal.classList.toggle('flex');
+        }
+
+        // Modificar el footer existente añadiendo el enlace
+        document.querySelector('footer').innerHTML += `
+            <div class="mt-4">
+                <button onclick="toggleLegal()" class="text-gray-500 hover:text-white transition-colors">Política de Privacidad y Cookies</button>
+            </div>
+        `;
+    </script>
 </body>
 </html>
