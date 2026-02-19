@@ -19,7 +19,8 @@
         .plate-font { font-family: 'Orbitron', sans-serif; letter-spacing: 3px; }
         .btn-glow:hover { box-shadow: 0 0 30px rgba(37, 99, 235, 0.6); transform: translateY(-2px); }
         .premium-border { border-bottom: 4px solid #2563eb; }
-        .lock-text { color: #64748b; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; }
+        .data-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s ease; }
+        .data-card:hover { background: rgba(255,255,255,0.07); border-color: rgba(37,99,235,0.3); }
     </style>
 </head>
 <body class="carbon text-white">
@@ -27,23 +28,22 @@
     <nav class="p-6 flex justify-between items-center border-b border-white/5 bg-black/20 backdrop-blur-md sticky top-0 z-50">
         <div class="flex items-center gap-2">
             <i class="fas fa-car-side text-blue-500 text-3xl"></i>
-            <span class="text-2xl font-black tracking-tighter uppercase italic text-white">HISTORIAL<span class="text-blue-500">AUTO</span></span>
+            <span class="text-2xl font-black tracking-tighter uppercase italic">HISTORIAL<span class="text-blue-500">AUTO</span></span>
         </div>
-        <div class="text-[10px] font-bold text-gray-500 tracking-[0.4em] uppercase">Base de Datos DGT España</div>
+        <div class="text-[10px] font-bold text-gray-500 tracking-[0.4em] uppercase text-right">Verificación DGT Online</div>
     </nav>
 
     <header class="hero-bg flex items-center justify-center px-6 text-center">
         <div class="max-w-4xl mx-auto">
             <h1 class="text-5xl md:text-7xl font-black mb-6 italic uppercase leading-none tracking-tighter">
-                Verificación <span class="text-blue-500">Elite</span>
+                Análisis de <span class="text-blue-500">Potencia</span>
             </h1>
             <div class="glass p-3 rounded-2xl max-w-3xl mx-auto flex flex-col md:flex-row gap-3">
-                <div class="flex-grow flex items-center bg-white rounded-xl px-4 overflow-hidden border-2 border-transparent focus-within:border-blue-500 transition-all">
+                <div class="flex-grow flex items-center bg-white rounded-xl px-4 overflow-hidden">
                     <div class="bg-blue-800 text-white px-2 py-1 rounded-sm text-[9px] font-bold flex flex-col leading-none mr-3">
                         <span>EU</span><span>E</span>
                     </div>
-                    <input id="plateInput" type="text" placeholder="EJ: 1234BBB" 
-                           class="w-full py-4 text-2xl font-black text-slate-900 outline-none uppercase plate-font">
+                    <input id="plateInput" type="text" placeholder="MATRÍCULA" class="w-full py-4 text-2xl font-black text-slate-900 outline-none uppercase plate-font">
                 </div>
                 <button onclick="consultarVehiculo()" class="bg-blue-600 hover:bg-blue-700 btn-glow text-white px-12 py-5 rounded-xl font-black uppercase text-lg transition-all active:scale-95">
                     ANALIZAR
@@ -55,69 +55,77 @@
     <section id="resultsSection" class="max-w-6xl mx-auto py-12 px-6 hidden">
         <div id="loader" class="text-center py-20 glass rounded-3xl">
             <div class="animate-spin text-blue-500 text-6xl mb-6 inline-block"><i class="fas fa-circle-notch"></i></div>
-            <p class="font-bold text-gray-400 uppercase tracking-widest text-xs">Conectando con Servidores de Tráfico...</p>
+            <p class="font-bold text-gray-400 uppercase tracking-widest text-xs">Accediendo a la ficha técnica...</p>
         </div>
 
-        <div id="reportCard" class="hidden">
+        <div id="reportCard" class="hidden animate-in fade-in duration-700">
             <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl">
+                
                 <div class="bg-white/5 p-10 flex flex-col md:flex-row justify-between items-center premium-border">
-                    <div class="bg-white px-8 py-3 rounded border-2 border-slate-300 shadow-inner">
+                    <div class="bg-white px-8 py-3 rounded border-2 border-slate-300 shadow-xl">
                         <h2 id="resPlate" class="text-5xl font-black text-slate-800 plate-font uppercase">---</h2>
                     </div>
                     <div class="text-right mt-4 md:mt-0">
-                        <p class="text-blue-500 font-bold uppercase text-[10px] tracking-widest mb-1">Resultado de Identificación</p>
-                        <p class="text-white font-black italic uppercase tracking-tighter text-xl" id="resDescription">---</p>
+                        <p class="text-blue-500 font-bold uppercase text-[10px] tracking-[0.5em] mb-1 italic">Informe de Registro</p>
+                        <p class="text-white font-black italic uppercase tracking-tighter text-2xl" id="resDescription">---</p>
                     </div>
                 </div>
 
-                <div class="p-10 grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="p-8 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     
-                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Marca</p>
+                    <div class="data-card p-6 rounded-2xl text-center">
+                        <i class="fas fa-copyright text-blue-500 mb-2"></i>
+                        <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest">Marca</p>
                         <p id="resMake" class="text-2xl font-black italic text-white uppercase">---</p>
                     </div>
 
-                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Modelo</p>
+                    <div class="data-card p-6 rounded-2xl text-center">
+                        <i class="fas fa-car text-blue-500 mb-2"></i>
+                        <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest">Modelo</p>
                         <p id="resModel" class="text-2xl font-black italic text-white uppercase">---</p>
                     </div>
 
-                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Año Registro</p>
+                    <div class="data-card p-6 rounded-2xl text-center">
+                        <i class="fas fa-calendar-alt text-blue-500 mb-2"></i>
+                        <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest">Año</p>
                         <p id="resYear" class="text-2xl font-black text-white italic">---</p>
                     </div>
 
-                    <div class="bg-blue-600/10 p-6 rounded-2xl border border-blue-500/30">
-                        <p class="text-[10px] text-blue-400 font-black uppercase mb-2 tracking-widest">Potencia</p>
-                        <p id="resPower" class="text-2xl font-black text-blue-400 uppercase italic">---</p>
+                    <div class="bg-blue-600/20 p-6 rounded-2xl text-center border border-blue-500/40">
+                        <i class="fas fa-gas-pump text-blue-400 mb-2"></i>
+                        <p class="text-[10px] text-blue-400 font-black uppercase tracking-widest">Combustible</p>
+                        <p id="resFuel" class="text-2xl font-black text-white italic uppercase">---</p>
                     </div>
 
-                    <div class="bg-white/5 p-6 rounded-2xl border border-white/5">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest">Cilindrada</p>
-                        <p id="resEngine" class="text-xl font-bold text-white italic">---</p>
+                    <div class="bg-green-600/20 p-6 rounded-2xl text-center border border-green-500/40">
+                        <i class="fas fa-bolt text-green-400 mb-2"></i>
+                        <p class="text-[10px] text-green-400 font-black uppercase tracking-widest">Potencia Real</p>
+                        <p id="resPower" class="text-3xl font-black text-white italic uppercase">---</p>
                     </div>
 
-                    <div class="bg-white/5 p-6 rounded-2xl border border-dashed border-gray-700 opacity-60">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest italic">Historial Dueños</p>
-                        <p class="lock-text"><i class="fas fa-lock mr-2"></i> Bloqueado</p>
+                    <div class="data-card p-6 rounded-2xl text-center">
+                        <i class="fas fa-microchip text-blue-500 mb-2"></i>
+                        <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest">Motor (CC)</p>
+                        <p id="resEngine" class="text-2xl font-black text-white italic">---</p>
                     </div>
 
-                    <div class="bg-white/5 p-6 rounded-2xl border border-dashed border-gray-700 opacity-60">
-                        <p class="text-[10px] text-gray-500 font-black uppercase mb-2 tracking-widest italic">Cargas Legales</p>
-                        <p class="lock-text text-yellow-500/60"><i class="fas fa-exclamation-triangle mr-2"></i> Ver Informe</p>
+                    <div class="data-card p-6 rounded-2xl text-center opacity-60">
+                        <i class="fas fa-gavel text-gray-500 mb-2"></i>
+                        <p class="text-[10px] text-gray-500 font-black uppercase tracking-widest italic">Cargas Legales</p>
+                        <p class="text-xs font-bold text-yellow-500 italic"><i class="fas fa-lock mr-1"></i> VER INFORME</p>
                     </div>
-                    
-                    <div class="bg-blue-600 p-6 rounded-3xl text-center shadow-xl btn-glow transition-all">
+
+                    <div class="bg-blue-600 p-6 rounded-3xl text-center shadow-xl btn-glow transition-all flex items-center justify-center">
                         <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
                             <input type="hidden" name="cmd" value="_xclick">
                             <input type="hidden" name="business" value="mrmanuwthc@gmail.com">
                             <input type="hidden" name="item_name" id="paypalItemName" value="Informe Premium">
                             <input type="hidden" name="amount" value="9.95">
                             <input type="hidden" name="currency_code" value="EUR">
-                            <button type="submit" class="w-full h-full">
-                                <p class="text-[10px] font-black uppercase mb-1">Informe Completo</p>
+                            <button type="submit" class="w-full">
+                                <p class="text-[10px] font-black uppercase">Informe Completo</p>
                                 <p class="text-4xl font-black italic">9.95€</p>
-                                <p class="text-[8px] font-bold opacity-80 mt-1 uppercase tracking-tighter">Descargar PDF Oficial</p>
+                                <p class="text-[8px] font-bold opacity-80 mt-1 uppercase tracking-widest">Dueños + ITV + Accidentes</p>
                             </button>
                         </form>
                     </div>
@@ -131,10 +139,10 @@
         const USERNAME = "MrManuwT";
 
         function extraerTextoDato(dato) {
-            if (!dato) return "NO DISPONIBLE";
+            if (!dato) return "N/D";
             if (typeof dato === 'string') return dato.toUpperCase();
             if (typeof dato === 'object') {
-                return (dato.CurrentTextValue || dato.Value || dato.Description || Object.values(dato)[0] || "CONSULTAR").toString().toUpperCase();
+                return (dato.CurrentTextValue || dato.Value || dato.Description || Object.values(dato)[0] || "N/D").toString().toUpperCase();
             }
             return dato.toString().toUpperCase();
         }
@@ -160,27 +168,29 @@
 
                 const data = JSON.parse(vehicleJson);
 
-                // Inyección de Datos con el Fix de [object Object]
+                // --- INYECCIÓN DE DATOS ---
                 document.getElementById('resPlate').innerText = plate;
                 document.getElementById('resMake').innerText = extraerTextoDato(data.Make || data.MakeDescription);
                 document.getElementById('resModel').innerText = extraerTextoDato(data.Model || data.ModelDescription);
                 document.getElementById('resYear').innerText = extraerTextoDato(data.RegistrationYear || data.Year);
                 
-                // Datos Técnicos Extra
-                const cv = data.HorsePower || data.PowerKW || "---";
-                const cc = data.EngineSize || "---";
-                document.getElementById('resPower').innerText = cv + " CV";
-                document.getElementById('resEngine').innerText = cc + " CC";
+                // --- COMBUSTIBLE Y POTENCIA ---
+                const combustible = data.FuelType || data.Fuel || "VER PDF";
+                const potencia = data.HorsePower || data.PowerKW || "---";
+                const cilindrada = data.EngineSize || "---";
+
+                document.getElementById('resFuel').innerText = extraerTextoDato(combustible);
+                document.getElementById('resPower').innerText = potencia + " CV";
+                document.getElementById('resEngine').innerText = cilindrada + " CC";
                 document.getElementById('resDescription').innerText = extraerTextoDato(data.Description);
                 
-                // Actualizar PayPal
                 document.getElementById('paypalItemName').value = "Informe Matrícula: " + plate;
 
                 document.getElementById('loader').classList.add('hidden');
                 document.getElementById('reportCard').classList.remove('hidden');
 
             } catch (err) {
-                alert("Error: " + err.message);
+                alert("Error: No hay conexión o créditos. " + err.message);
                 document.getElementById('resultsSection').classList.add('hidden');
             }
         }
