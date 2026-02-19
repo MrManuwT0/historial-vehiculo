@@ -3,135 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Historial Vehículo | Consulta de Matrícula</title>
+    <title>Informe Matrícula | Historial Oficial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Estilo de texto tipo placa */
+        .plate-font {
+            font-family: 'Courier New', Courier, monospace;
+            letter-spacing: 3px;
+        }
+    </style>
 </head>
-<body class="bg-slate-100 font-sans">
+<body class="bg-gray-100 font-sans">
 
-    <nav class="bg-white border-b border-gray-200 py-4 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-search-location text-blue-600 text-3xl"></i>
-                <span class="text-2xl font-black tracking-tighter text-slate-800">MATRI<span class="text-blue-600">CHECK</span></span>
-            </div>
-            <div class="hidden md:flex space-x-8 text-sm font-bold text-slate-600 uppercase">
-                <a href="#" class="hover:text-blue-600">Informes</a>
-                <a href="#" class="hover:text-blue-600">Precios</a>
-                <a href="#" class="bg-blue-600 text-white px-5 py-2 rounded-full hover:bg-blue-700 transition">Acceso</a>
+    <nav class="bg-white py-4 shadow-md">
+        <div class="max-w-6xl mx-auto px-6 flex justify-between items-center">
+            <div class="text-2xl font-black text-slate-800 italic">
+                <i class="fas fa-car text-blue-600"></i> INFO<span class="text-blue-600">MATRICULA</span>
             </div>
         </div>
     </nav>
 
-    <section class="bg-slate-900 py-24 px-4 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-20">
-            <img src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&q=80" class="w-full h-full object-cover">
-        </div>
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h1 class="text-4xl md:text-6xl font-extrabold text-white mb-6">Consulta el historial por Matrícula</h1>
-            <p class="text-slate-300 text-lg mb-10">Acceso inmediato a datos de la DGT / REPUVE, cargas y embargos.</p>
-            
-            <div class="bg-white p-2 rounded-2xl shadow-2xl flex flex-col md:flex-row gap-2">
-                <div class="flex-grow relative">
-                    <div class="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2 border-r pr-3 border-gray-200">
-                        <span class="bg-blue-800 text-white text-[10px] px-1 rounded-sm">E</span>
-                        <i class="fas fa-id-card text-gray-400"></i>
+    <header class="bg-slate-800 py-24 px-6 text-center relative">
+        <div class="max-w-3xl mx-auto relative z-10">
+            <h1 class="text-white text-4xl md:text-5xl font-extrabold mb-4">Consulta historial por MATRÍCULA</h1>
+            <p class="text-slate-300 text-lg mb-10">Accede a datos de la DGT, embargos y kilometraje en segundos.</p>
+
+            <div class="bg-white p-3 rounded-xl shadow-2xl flex flex-col md:flex-row gap-3">
+                <div class="flex-grow flex items-center border-2 border-gray-200 rounded-lg overflow-hidden">
+                    <div class="bg-blue-700 text-white px-2 py-4 flex flex-col items-center justify-center min-w-[40px]">
+                        <span class="text-[10px]">EU</span>
+                        <span class="font-bold text-sm">E</span>
                     </div>
-                    <input id="plateInput" type="text" placeholder="Ej: 1234ABC o Placa" 
-                           class="w-full pl-20 pr-4 py-4 text-xl rounded-xl focus:ring-2 focus:ring-blue-500 outline-none uppercase font-bold tracking-widest">
+                    <input id="inputMatricula" type="text" placeholder="EJEMPLO: 1234BBB" 
+                           class="w-full p-4 text-2xl font-bold plate-font uppercase outline-none">
                 </div>
-                <button onclick="consultarMatricula()" class="bg-orange-500 hover:bg-orange-600 text-white text-lg font-bold px-10 py-4 rounded-xl transition-all transform active:scale-95 shadow-lg">
-                    CONSULTAR PLACA
+                <button onclick="consultar()" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-10 py-5 rounded-lg transition-transform active:scale-95 uppercase tracking-tighter">
+                    Consultar Matrícula
                 </button>
             </div>
-            <p class="mt-6 text-slate-400 text-sm">
-                <i class="fas fa-shield-check text-green-500 mr-1"></i> Búsqueda cifrada y protegida
+            
+            <p class="text-slate-500 mt-6 text-sm">
+                <i class="fas fa-lock mr-2"></i> Conexión segura con el Registro de Vehículos
             </p>
         </div>
-    </section>
+    </header>
 
-    <section id="resultsSection" class="max-w-5xl mx-auto py-12 px-4 hidden">
-        <div id="loader" class="text-center py-20">
-            <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-orange-500 mx-auto"></div>
-            <p class="mt-4 text-slate-600 font-medium italic">Conectando con el registro vehicular...</p>
+    <section id="zonaResultados" class="max-w-4xl mx-auto py-16 px-6 hidden">
+        <div id="cargando" class="text-center">
+            <div class="animate-spin text-blue-600 text-5xl mb-4"><i class="fas fa-circle-notch"></i></div>
+            <p class="text-slate-600 font-bold">Consultando base de datos nacional...</p>
         </div>
 
-        <div id="reportCard" class="bg-white rounded-3xl shadow-xl overflow-hidden hidden border border-gray-200">
-            <div class="bg-slate-800 p-6 text-white flex justify-between items-center border-b-4 border-orange-500">
-                <div>
-                    <h2 class="text-xl font-bold uppercase tracking-widest opacity-70">Informe de Matrícula</h2>
-                    <p id="resPlate" class="text-3xl font-mono font-black"></p>
-                </div>
-                <div class="bg-white text-slate-800 p-2 rounded-lg font-bold text-center">
-                    <span class="block text-[10px] uppercase">Estatus</span>
-                    <span class="text-green-600 uppercase">Limpio</span>
-                </div>
+        <div id="informe" class="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-200 hidden">
+            <div class="bg-blue-600 p-6 text-white">
+                <h2 class="text-sm uppercase opacity-80 font-bold">Resultado para la placa:</h2>
+                <p id="resMatricula" class="text-4xl font-mono font-black mt-1 tracking-widest"></p>
             </div>
             
-            <div class="p-8 grid md:grid-cols-3 gap-8 text-slate-800">
-                <div class="md:col-span-2 space-y-6">
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-slate-50 p-4 rounded-xl border border-gray-100">
-                            <p class="text-xs text-gray-500 font-bold uppercase">Vehículo</p>
-                            <p id="resVehiculo" class="font-bold text-lg">---</p>
-                        </div>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-gray-100">
-                            <p class="text-xs text-gray-500 font-bold uppercase">Año</p>
-                            <p id="resAnio" class="font-bold text-lg">---</p>
-                        </div>
+            <div class="p-8">
+                <div class="grid md:grid-cols-2 gap-8 mb-8">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <span class="text-xs text-gray-400 font-bold uppercase">Vehículo</span>
+                        <p id="resCoche" class="text-xl font-black text-slate-800 italic uppercase">Cargando...</p>
                     </div>
-                    <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200 flex items-center gap-4">
-                        <i class="fas fa-exclamation-circle text-yellow-600 text-2xl"></i>
-                        <div>
-                            <p class="font-bold text-yellow-800">Aviso Preventivo</p>
-                            <p class="text-sm text-yellow-700">Este vehículo tiene 1 multa de estacionamiento pendiente de pago.</p>
-                        </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <span class="text-xs text-gray-400 font-bold uppercase">Estado Legal</span>
+                        <p class="text-xl font-black text-green-600 uppercase italic"><i class="fas fa-check-circle"></i> Sin Cargas</p>
                     </div>
                 </div>
 
-                <div class="space-y-4">
-                    <div class="bg-blue-600 p-6 rounded-2xl text-white shadow-lg">
-                        <p class="text-sm opacity-90 mb-1">Informe Completo (PDF)</p>
-                        <p class="text-2xl font-bold mb-4">8.95€</p>
-                        <ul class="text-xs space-y-2 mb-6">
-                            <li><i class="fas fa-check mr-2"></i> Kilometraje real</li>
-                            <li><i class="fas fa-check mr-2"></i> Número de dueños</li>
-                            <li><i class="fas fa-check mr-2"></i> Accidentes graves</li>
-                        </ul>
-                        <button class="w-full bg-white text-blue-600 py-3 rounded-xl font-bold hover:bg-gray-100 transition">COMPRAR AHORA</button>
-                    </div>
+                <div class="border-t pt-8 text-center">
+                    <p class="text-gray-500 mb-6 font-medium">¿Quieres el historial detallado de multas y accidentes?</p>
+                    <button class="bg-slate-800 text-white px-8 py-4 rounded-full font-bold hover:bg-black transition shadow-lg uppercase tracking-widest text-sm">
+                        Descargar Informe Completo (PDF)
+                    </button>
                 </div>
             </div>
         </div>
     </section>
 
     <script>
-        function consultarMatricula() {
-            const plate = document.getElementById('plateInput').value.trim().toUpperCase();
-            if (plate.length < 4) {
-                alert("Por favor, introduce una matrícula válida.");
-                return;
-            }
+        function consultar() {
+            const mat = document.getElementById('inputMatricula').value.trim().toUpperCase();
+            if(mat.length < 4) return alert("Introduce una matrícula válida.");
 
-            const resultsSection = document.getElementById('resultsSection');
-            const loader = document.getElementById('loader');
-            const reportCard = document.getElementById('reportCard');
+            const zona = document.getElementById('zonaResultados');
+            const load = document.getElementById('cargando');
+            const info = document.getElementById('informe');
 
-            resultsSection.classList.remove('hidden');
-            loader.classList.remove('hidden');
-            reportCard.classList.add('hidden');
+            zona.classList.remove('hidden');
+            load.classList.remove('hidden');
+            info.classList.add('hidden');
 
-            window.scrollTo({ top: resultsSection.offsetTop - 50, behavior: 'smooth' });
+            window.scrollTo({ top: zona.offsetTop - 50, behavior: 'smooth' });
 
-            // Simulación de búsqueda (En la vida real aquí llamarías a tu API)
+            // Simulación de respuesta
             setTimeout(() => {
-                document.getElementById('resPlate').innerText = plate;
-                document.getElementById('resVehiculo').innerText = "Volkswagen Golf GTI";
-                document.getElementById('resAnio').innerText = "2019";
-
-                loader.classList.add('hidden');
-                reportCard.classList.remove('hidden');
-            }, 2000);
+                document.getElementById('resMatricula').innerText = mat;
+                document.getElementById('resCoche').innerText = "Volkswagen Golf 1.5 TSI";
+                load.classList.add('hidden');
+                info.classList.remove('hidden');
+            }, 1500);
         }
     </script>
 </body>
