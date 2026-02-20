@@ -3,82 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFOMATRICULA | CARBON EDITION</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>INFOMATRICULA | PREMIUM CARBON</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <div class="ad-slot ad-top">
+        <span>PUBLICIDAD - ANUNCIO SUPERIOR</span>
+    </div>
 
-    <div class="carbon-wrapper">
-        <header>
-            <div class="logo-carbon"><span>INFO</span>MATRICULA</div>
-            <div class="status-bar">
-                <span class="dot"></span> PROXY RENDER: <span id="proxy-status">READY</span>
-            </div>
-        </header>
+    <div class="main-layout">
+        <aside class="ad-slot ad-sidebar ad-left">LATERAL</aside>
 
-        <main>
-            <div class="hero-text">
-                <h1>CONSULTA <span>TÉCNICA</span></h1>
-                <p>Acceso directo a especificaciones oficiales de matriculación.</p>
-            </div>
+        <div class="carbon-container">
+            <header>
+                <div class="logo"><span>INFO</span>MATRICULA</div>
+                <div class="badge">CARBON EDITION</div>
+            </header>
 
-            <div class="search-box-carbon">
-                <input type="text" id="plateInput" placeholder="EJ: 6986JDY" maxlength="8" spellcheck="false">
-                <button onclick="consultarVehiculo()">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-                </button>
-            </div>
+            <section class="search-section">
+                <h1>DATOS <span>OFICIALES</span></h1>
+                <div class="search-box">
+                    <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
+                    <button onclick="consultarVehiculo()">CONSULTAR</button>
+                </div>
+            </section>
 
-            <div id="loader" class="loader-carbon hidden">
-                <div class="spinner"></div>
-                <p>SOLICITANDO DATOS...</p>
-            </div>
+            <div id="loader" class="loader hidden"></div>
 
-            <div id="resultsContent" class="results-card-carbon hidden">
+            <div id="resultsContent" class="results-card hidden">
                 <div class="vehicle-banner">
-                    <img id="vehiclePhoto" src="" alt="Cargando...">
+                    <img id="vehiclePhoto" src="" alt="Vehículo">
                     <div class="banner-overlay"></div>
                     <div class="plate-badge" id="resPlate">---</div>
                 </div>
 
-                <div class="data-section">
-                    <div class="title-group">
-                        <h2 id="resMake">MARCA</h2>
-                        <p id="resModel">MODELO</p>
-                    </div>
+                <div class="ad-slot ad-internal">PUBLICIDAD</div>
 
-                    <div class="specs-grid-carbon">
-                        <div class="spec-tile">
-                            <label>AÑO MATRICULACIÓN</label>
-                            <span id="resYear">---</span>
-                        </div>
-                        <div class="spec-tile">
-                            <label>POTENCIA MOTOR</label>
-                            <span id="resPower">---</span>
-                        </div>
-                        <div class="spec-tile">
-                            <label>CILINDRADA</label>
-                            <span id="resEngine">---</span>
-                        </div>
-                        <div class="spec-tile">
-                            <label>COMBUSTIBLE</label>
-                            <span id="resFuel">---</span>
-                        </div>
-                    </div>
-                    
-                    <div class="footer-verify">
-                        🛡️ VERIFICADO VIA RAPIDAPI PROXY
-                    </div>
+                <div class="specs-grid">
+                    <div class="spec"> <label>MARCA</label> <span id="resMake">---</span> </div>
+                    <div class="spec"> <label>MODELO</label> <span id="resModel">---</span> </div>
+                    <div class="spec"> <label>AÑO</label> <span id="resYear">---</span> </div>
+                    <div class="spec"> <label>POTENCIA</label> <span id="resPower">---</span> </div>
+                    <div class="spec"> <label>FUEL</label> <span id="resFuel">---</span> </div>
+                    <div class="spec"> <label>MOTOR</label> <span id="resEngine">---</span> </div>
                 </div>
             </div>
-        </main>
+        </div>
 
-        <footer class="main-footer">
-            © 2026 INFOMATRICULA | TECNOLOGÍA CARBON
-        </footer>
+        <aside class="ad-slot ad-sidebar ad-right">LATERAL</aside>
     </div>
+
+    <footer class="ad-slot ad-bottom">PUBLICIDAD INFERIOR</footer>
 
     <script src="script.js"></script>
 </body>
