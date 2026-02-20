@@ -1,32 +1,40 @@
 async function consultarVehiculo() {
-    const plate = document.getElementById('plateInput').value.trim().toUpperCase();
+    const plateInput = document.getElementById('plateInput');
+    const plate = plateInput.value.trim().toUpperCase();
     if (!plate) return;
 
-    document.getElementById('loader').classList.remove('hidden');
-    document.getElementById('resultsContent').classList.add('hidden');
+    const loader = document.getElementById('loader');
+    const results = document.getElementById('resultsContent');
+
+    loader.classList.remove('hidden');
+    results.classList.add('hidden');
 
     try {
+        // Conexión a tu puente de Render
         const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
+        
+        if (!response.ok) throw new Error("Error en servidor");
+
         const data = await response.json();
+        const d = data.data || data;
 
-        // La API puede devolver los datos directamente o dentro de un objeto 'data'
-        const info = data.data || data;
-
+        // Inyectar datos
         document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = (info.marca || "---").toUpperCase();
-        document.getElementById('resModel').innerText = (info.modelo || "---").toUpperCase();
-        document.getElementById('resYear').innerText = info.fecha_matriculacion || "---";
-        document.getElementById('resPower').innerText = (info.potencia || "---") + " CV";
-        document.getElementById('resFuel').innerText = (info.combustible || "---").toUpperCase();
-        document.getElementById('resEngine').innerText = (info.cilindrada || "---") + " CC";
+        document.getElementById('resMake').innerText = (d.marca || "---").toUpperCase();
+        document.getElementById('resModel').innerText = (d.modelo || "---").toUpperCase();
+        document.getElementById('resYear').innerText = d.fecha_matriculacion || "---";
+        document.getElementById('resPower').innerText = (d.potencia || "---") + " CV";
+        document.getElementById('resFuel').innerText = (d.combustible || "---").toUpperCase();
+        document.getElementById('resEngine').innerText = (d.cilindrada || "---") + " CC";
+        document.getElementById('resDescription').innerText = (d.descripcion || "VEHÍCULO IDENTIFICADO").toUpperCase();
 
-        // Foto aleatoria de coche para el fondo (Unsplash)
-        document.getElementById('vehiclePhoto').src = `https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=800&q=80`;
+        // Imagen de fondo (Unsplash)
+        document.getElementById('vehiclePhoto').src = `https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80`;
 
-        document.getElementById('resultsContent').classList.remove('hidden');
+        results.classList.remove('hidden');
     } catch (err) {
-        alert("Error al obtener los datos. Verifica la matrícula.");
+        alert("FALLO TÉCNICO: Verifica que tu servidor Render esté encendido.");
     } finally {
-        document.getElementById('loader').classList.add('hidden');
+        loader.classList.add('hidden');
     }
 }
