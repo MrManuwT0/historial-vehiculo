@@ -5,57 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INFOMATRICULA | PREMIUM CARBON</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="ad-slot ad-top">
-        <span>PUBLICIDAD - ANUNCIO SUPERIOR</span>
-    </div>
+    <div class="ad-top">ANUNCIO SUPERIOR</div>
 
     <div class="main-layout">
-        <aside class="ad-slot ad-sidebar ad-left">LATERAL</aside>
+        <aside class="ad-side">ADS</aside>
 
-        <div class="carbon-container">
+        <div class="carbon-card">
             <header>
                 <div class="logo"><span>INFO</span>MATRICULA</div>
-                <div class="badge">CARBON EDITION</div>
             </header>
 
-            <section class="search-section">
-                <h1>DATOS <span>OFICIALES</span></h1>
-                <div class="search-box">
-                    <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
-                    <button onclick="consultarVehiculo()">CONSULTAR</button>
-                </div>
-            </section>
+            <div class="search-box">
+                <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
+                <button onclick="consultarVehiculo()">CONSULTAR</button>
+            </div>
 
             <div id="loader" class="loader hidden"></div>
 
-            <div id="resultsContent" class="results-card hidden">
-                <div class="vehicle-banner">
-                    <img id="vehiclePhoto" src="" alt="Vehículo">
-                    <div class="banner-overlay"></div>
-                    <div class="plate-badge" id="resPlate">---</div>
+            <div id="resultsContent" class="results hidden">
+                <div class="vehicle-bg">
+                    <img id="vehiclePhoto" src="" alt="Coche">
+                    <div class="plate-label" id="resPlate">---</div>
                 </div>
 
-                <div class="ad-slot ad-internal">PUBLICIDAD</div>
-
-                <div class="specs-grid">
-                    <div class="spec"> <label>MARCA</label> <span id="resMake">---</span> </div>
-                    <div class="spec"> <label>MODELO</label> <span id="resModel">---</span> </div>
-                    <div class="spec"> <label>AÑO</label> <span id="resYear">---</span> </div>
-                    <div class="spec"> <label>POTENCIA</label> <span id="resPower">---</span> </div>
-                    <div class="spec"> <label>FUEL</label> <span id="resFuel">---</span> </div>
-                    <div class="spec"> <label>MOTOR</label> <span id="resEngine">---</span> </div>
+                <div class="data-grid">
+                    <div class="item"><label>MARCA</label><span id="resMake">---</span></div>
+                    <div class="item"><label>MODELO</label><span id="resModel">---</span></div>
+                    <div class="item"><label>AÑO</label><span id="resYear">---</span></div>
+                    <div class="item"><label>POTENCIA</label><span id="resPower">---</span></div>
                 </div>
+                <div class="ad-internal">ANUNCIO INTERNO</div>
             </div>
         </div>
 
-        <aside class="ad-slot ad-sidebar ad-right">LATERAL</aside>
+        <aside class="ad-side">ADS</aside>
     </div>
-
-    <footer class="ad-slot ad-bottom">PUBLICIDAD INFERIOR</footer>
-
     <script src="script.js"></script>
 </body>
 </html>
