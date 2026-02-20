@@ -1,41 +1,41 @@
 async function consultarVehiculo() {
     const plateInput = document.getElementById('plateInput');
     const plate = plateInput.value.trim().toUpperCase();
-    
-    if (!plate) return alert("Pon una matrícula válida");
+    if (!plate) return;
 
-    document.getElementById('loader').classList.remove('hidden');
-    document.getElementById('resultsContent').classList.add('hidden');
+    // Mostrar que estamos trabajando
+    console.log("Consultando matrícula: " + plate);
 
     try {
-        // LLAMADA AL NODO DE RENDER
         const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
         const result = await response.json();
 
-        // IMPORTANTE: RapidAPI a veces envuelve los datos en un objeto .data
-        const info = result.data ? result.data : result;
-
-        if (!info || info.error) {
-            throw new Error("No hay datos para esta matrícula");
+        if (result.error) {
+            alert("Error del servidor: " + (result.detalles?.message || result.error));
+            return;
         }
 
-        // RELLENAR LOS CAMPOS (IDs del HTML Premium Carbon)
+        // Extraemos los datos (RapidAPI suele enviarlos en .data o raíz)
+        const d = result.data || result;
+
+        // ASIGNACIÓN DIRECTA DE DATOS
         document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = info.marca || "DESCONOCIDO";
-        document.getElementById('resModel').innerText = info.modelo || "---";
-        document.getElementById('resPower').innerText = (info.potencia || "---") + " CV";
-        document.getElementById('resYear').innerText = info.fecha_matriculacion || "---";
-        document.getElementById('resEngine').innerText = (info.cilindrada || "---") + " CC";
-        document.getElementById('resFuel').innerText = info.combustible || "---";
+        document.getElementById('resMake').innerText = d.marca || d.brand || "NO DISPONIBLE";
+        document.getElementById('resModel').innerText = d.modelo || d.model || "---";
+        document.getElementById('resYear').innerText = d.fecha_matriculacion || d.year || "---";
+        document.getElementById('resPower').innerText = (d.potencia || "---") + " CV";
+        document.getElementById('resFuel').innerText = (d.combustible || "---").toUpperCase();
+        document.getElementById('resEngine').innerText = (d.cilindrada || "---") + " CC";
 
-        // IMAGEN DINÁMICA
-        document.getElementById('vehiclePhoto').src = `https://source.unsplash.com/800x400/?car,${info.marca}`;
+        // Foto dinámica
+        const foto = document.getElementById('vehiclePhoto');
+        if(foto) foto.src = `https://source.unsplash.com/800x400/?car,${d.marca}`;
 
+        // Mostrar resultados
         document.getElementById('resultsContent').classList.remove('hidden');
 
-    } catch (error) {
-        alert("Error: " + error.message);
-    } finally {
-        document.getElementById('loader').classList.add('hidden');
+    } catch (err) {
+        console.error("Fallo total:", err);
+        alert("No se pudo conectar con el servidor de Render.");
     }
 }
