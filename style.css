@@ -1,90 +1,44 @@
-:root {
-    --carbon-black: #080808;
-    --accent-blue: #2563eb;
-    --glass-bg: rgba(255, 255, 255, 0.05);
-    --border-light: rgba(255, 255, 255, 0.1);
+:root { --accent: #2563eb; --glass: rgba(255, 255, 255, 0.05); }
+
+body { 
+    background-color: #080808; 
+    background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); 
+    color: white; font-family: 'Inter', sans-serif; margin: 0;
 }
 
-body {
-    background-color: var(--carbon-black);
-    /* Patrón de fibra de carbono de test.html */
-    background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-    color: white;
-    font-family: 'Inter', sans-serif;
-    margin: 0;
-}
-
-.main-layout { display: flex; justify-content: center; gap: 20px; padding: 20px; }
-
-/* Espacios para Publicidad */
-.ad-slot {
-    background: rgba(255,255,255,0.02);
-    border: 1px dashed rgba(255,255,255,0.1);
-    display: flex; align-items: center; justify-content: center;
-    color: #444; font-size: 0.7rem; font-weight: bold;
-}
-.ad-top { height: 90px; width: 100%; max-width: 1000px; margin: 10px auto; }
+.layout-wrapper { display: flex; justify-content: center; gap: 20px; padding: 20px; }
+.ad-slot { background: var(--glass); border: 1px dashed #333; display: flex; align-items: center; justify-content: center; color: #444; font-size: 10px; }
+.ad-top { height: 90px; max-width: 1000px; margin: 10px auto; }
 .ad-sidebar { width: 160px; height: 600px; }
-.ad-internal { height: 100px; margin: 20px; border-radius: 10px; }
+.ad-internal { height: 80px; margin: 15px; border-radius: 10px; }
 
-/* Contenedor Carbon */
-.container-premium { width: 100%; max-width: 550px; }
-
-.logo { font-family: 'Orbitron'; font-weight: 900; font-size: 1.8rem; text-align: center; margin-bottom: 5px; }
-.logo span { color: var(--accent-blue); }
-.badge-status { text-align: center; font-size: 0.65rem; color: #666; letter-spacing: 2px; margin-bottom: 40px; }
-
-/* Buscador de test.html */
-.search-box-glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    border: 1px solid var(--border-light);
-    padding: 10px; border-radius: 20px; display: flex; flex-direction: column; gap: 10px;
+.main-card { 
+    width: 100%; max-width: 480px; background: rgba(0,0,0,0.7); 
+    backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1);
+    padding: 30px; border-radius: 28px; box-shadow: 0 40px 80px rgba(0,0,0,0.8);
 }
 
-.plate-input-container {
-    display: flex; align-items: center; background: white; border-radius: 12px; padding: 0 15px; overflow: hidden;
-}
+.logo { font-family: 'Orbitron'; font-weight: 900; font-size: 1.8rem; text-align: center; }
+.logo span { color: var(--accent); }
+.edition { text-align: center; font-size: 0.6rem; letter-spacing: 4px; color: var(--accent); margin-bottom: 30px; }
 
-.eu-badge {
-    background: #003399; color: white; padding: 5px; border-radius: 2px;
-    display: flex; flex-direction: column; font-size: 8px; font-weight: bold; margin-right: 15px;
-}
+.input-container { display: flex; align-items: center; background: white; border-radius: 12px; padding: 0 15px; margin-bottom: 10px; }
+.eu-flag { background: #003399; color: white; padding: 5px; display: flex; flex-direction: column; font-size: 8px; font-weight: bold; margin-right: 15px; }
+input { flex: 1; border: none; padding: 15px 0; font-size: 1.8rem; font-weight: 900; font-family: 'Orbitron'; color: #111; outline: none; }
 
-input {
-    flex: 1; border: none; padding: 15px 0; font-size: 1.8rem; font-weight: 900;
-    font-family: 'Orbitron'; color: #1e293b; outline: none; text-transform: uppercase;
-}
+button { width: 100%; background: var(--accent); color: white; border: none; padding: 18px; border-radius: 12px; font-weight: 900; cursor: pointer; transition: 0.3s; }
+button:hover { box-shadow: 0 0 25px rgba(37, 99, 235, 0.4); transform: translateY(-2px); }
 
-.btn-analyze {
-    background: var(--accent-blue); color: white; border: none; padding: 18px;
-    border-radius: 12px; font-weight: 900; font-size: 1.1rem; cursor: pointer;
-    transition: all 0.3s; box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
-}
-.btn-analyze:hover { transform: translateY(-2px); box-shadow: 0 0 30px rgba(37, 99, 235, 0.6); }
-
-/* Tarjeta de Resultados con Imagen */
-.results-card {
-    background: #111; border: 1px solid var(--border-light); border-radius: 30px;
-    margin-top: 40px; overflow: hidden; box-shadow: 0 40px 100px rgba(0,0,0,0.8);
-}
-
-.vehicle-hero { position: relative; height: 200px; }
+.hero-image { position: relative; height: 180px; border-radius: 15px; overflow: hidden; margin-top: 25px; }
 #vehiclePhoto { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; }
-.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, #111, transparent); }
+.overlay { position: absolute; inset: 0; background: linear-gradient(to top, #000, transparent); }
+.plate-badge { position: absolute; bottom: 15px; left: 15px; background: white; color: black; padding: 4px 12px; font-family: 'Orbitron'; font-weight: 900; border-radius: 4px; }
 
-.plate-badge-display {
-    position: absolute; bottom: 20px; left: 20px; background: white; color: black;
-    padding: 5px 15px; font-family: 'Orbitron'; font-weight: 900; border-radius: 5px; font-size: 1.5rem;
-}
+.data-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px 0; }
+.data-box { background: rgba(255,255,255,0.03); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
+.data-box label { display: block; font-size: 0.6rem; color: #555; font-weight: 900; margin-bottom: 3px; }
+.data-box span { font-weight: 800; font-size: 1rem; }
+.data-box.blue { border-color: var(--accent); }
 
-.specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; padding: 25px; }
-.spec-tile { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 15px; border: 1px solid var(--border-light); }
-.spec-tile label { display: block; font-size: 0.65rem; color: #555; font-weight: 900; margin-bottom: 5px; }
-.spec-tile span { font-weight: 800; font-size: 1.1rem; }
-.spec-tile.accent { border-color: var(--accent-blue); }
-
-.card-footer { padding: 20px; background: rgba(0,0,0,0.3); text-align: center; }
-#resDescription { font-size: 0.8rem; font-weight: 900; color: var(--accent-blue); }
-
+.footer-msg { text-align: center; font-size: 0.7rem; font-weight: 900; color: var(--accent); margin-top: 10px; }
 .hidden { display: none !important; }
