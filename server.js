@@ -1,65 +1,28 @@
-async function consultarVehiculo() {
-    const input = document.getElementById('plateInput');
-    const plate = input.value.trim().toUpperCase().replace(/[-\s]/g, "");
-    if (!plate) return;
+const express = require('express');
+const axios = require('axios');
+const cors = require('cors');
+const app = express();
 
-    const loader = document.getElementById('loader');
-    const results = document.getElementById('resultsContent');
-    const desc = document.getElementById('resDescription');
+app.use(cors()); // Permite que tu web conecte con el servidor
+app.use(express.json());
 
-    loader.classList.remove('hidden');
-    results.classList.add('hidden');
+const API_KEY = 'b4b6eb078cmsh025d40281b264c2p19be9ajsn045ec5167bae';
+const API_HOST = 'api-matriculas-espana.p.rapidapi.com';
 
+app.get('/consulta/:plate', async (req, res) => {
     try {
-        // Cargamos la configuración desde el JSON
-        const configResp = await fetch('config.json');
-        const config = await configResp.json();
-
-        // Intentamos el fetch al endpoint principal
-        const response = await fetch(`https://${config.api.host}${config.api.endpoints[0]}${plate}`, {
-            method: 'GET',
+        const plate = req.params.plate;
+        const response = await axios.get(`https://${API_HOST}/get/${plate}`, {
             headers: {
-                'X-RapidAPI-Key': config.api.key,
-                'X-RapidAPI-Host': config.api.host
+                'X-RapidAPI-Key': API_KEY,
+                'X-RapidAPI-Host': API_HOST
             }
         });
-
-        const res = await response.json();
-        console.log("Respuesta recibida:", res);
-
-        if (!response.ok || res.error || (res.message && res.message.includes("not exist"))) {
-            throw new Error("MATRÍCULA NO ENCONTRADA");
-        }
-
-        const d = res.data || res;
-
-        // Inyectar datos
-        document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = (d.marca || d.brand || "---").toUpperCase();
-        document.getElementById('resModel').innerText = (d.modelo || d.model || "---").toUpperCase();
-        
-        let fecha = d.fecha_matriculacion || d.year || "---";
-        document.getElementById('resYear').innerText = String(fecha).match(/\d{4}/) ? String(fecha).match(/\d{4}/)[0] : "---";
-
-        document.getElementById('resPower').innerText = (d.potencia || d.cv || "---") + " CV";
-        document.getElementById('resFuel').innerText = (d.combustible || d.fuel || "---").toUpperCase();
-        document.getElementById('resEngine').innerText = (d.cilindrada || d.cc || "---") + " CC";
-
-        desc.innerText = "LOCALIZADO";
-        desc.className = "font-black italic text-2xl text-white";
-
-    } catch (err) {
-        console.error("Error:", err.message);
-        document.getElementById('resPlate').innerText = "AVISO";
-        desc.innerText = err.message;
-        desc.className = "font-black italic text-2xl text-red-500";
-        
-        // Limpiar campos
-        ['resMake', 'resModel', 'resYear', 'resPower', 'resFuel', 'resEngine'].forEach(id => {
-            document.getElementById(id).innerText = "---";
-        });
-    } finally {
-        loader.classList.add('hidden');
-        results.classList.remove('hidden');
+        res.json(response.data);
+    } catch (error) {
+        res.status(error.response?.status || 500).json({ error: 'Error en la consulta' });
     }
-}
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
