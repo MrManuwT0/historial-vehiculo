@@ -3,7 +3,7 @@ const axios = require('axios');
 const cors = require('cors');
 const app = express();
 
-app.use(cors()); // Permite que tu web conecte con el servidor
+app.use(cors());
 app.use(express.json());
 
 const API_KEY = 'b4b6eb078cmsh025d40281b264c2p19be9ajsn045ec5167bae';
@@ -20,9 +20,9 @@ app.get('/consulta/:plate', async (req, res) => {
         });
         res.json(response.data);
     } catch (error) {
-        res.status(error.response?.status || 500).json({ error: 'Error en la consulta' });
+        res.status(error.response?.status || 500).json({ error: 'No encontrado' });
     }
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor corriendo en puerto ${PORT}`));
+app.listen(PORT, () => console.log(`Servidor en puerto ${PORT}`));
