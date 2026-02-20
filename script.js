@@ -9,7 +9,7 @@ async function consultarVehiculo() {
     results.classList.add('hidden');
 
     // PEGA AQUÍ LA URL QUE TE DIO RENDER
-    const RENDER_URL = "https://historial-vehiculo.onrender.com"; 
+    const RENDER_URL = "https://api-historial-vehiculo.onrender.com"; 
 
     try {
         const response = await fetch(`${RENDER_URL}/consulta/${plate}`);
