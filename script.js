@@ -1,4 +1,3 @@
-// Asegúrate de que NO haya una barra / al final de la URL
 const RENDER_URL = "https://api-historial-vehiculo.onrender.com";
 
 async function consultarVehiculo() {
@@ -14,18 +13,21 @@ async function consultarVehiculo() {
     results.classList.add('hidden');
 
     try {
-        // Construimos la URL manualmente para asegurar que es correcta
-        const endpoint = RENDER_URL + "/consulta/" + plate;
-        console.log("Llamando a:", endpoint);
+        // ACTUALIZADO: Hemos añadido /api/ antes de /consulta/
+        const url = `${RENDER_URL}/api/consulta/${plate}`;
+        console.log("Conectando a:", url);
 
-        const response = await fetch(endpoint);
+        const response = await fetch(url);
         
-        if (!response.ok) throw new Error("404");
+        if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.error || "404");
+        }
 
         const data = await response.json();
         const d = data.data || data;
 
-        // Inyectar datos
+        // Pintar datos
         document.getElementById('resPlate').innerText = plate;
         document.getElementById('resMake').innerText = (d.marca || d.brand || "---").toUpperCase();
         document.getElementById('resModel').innerText = (d.modelo || d.model || "---").toUpperCase();
@@ -38,9 +40,9 @@ async function consultarVehiculo() {
         document.getElementById('resDescription').style.color = "white";
 
     } catch (err) {
-        console.error("Error capturado:", err);
+        console.error("Error en búsqueda:", err.message);
         document.getElementById('resPlate').innerText = "ERROR";
-        document.getElementById('resDescription').innerText = "MATRÍCULA NO ENCONTRADA";
+        document.getElementById('resDescription').innerText = "NO ENCONTRADO";
         document.getElementById('resDescription').style.color = "#ff4444";
     } finally {
         loader.classList.add('hidden');
