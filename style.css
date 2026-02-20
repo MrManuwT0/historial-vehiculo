@@ -1,50 +1,192 @@
-/* Carbon Fiber Pattern */
-.carbon-bg {
-    background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-    background-attachment: fixed;
+/* Configuración Base */
+:root {
+    --primary: #007bff;
+    --bg-dark: #0f172a;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+    --accent: #38bdf8;
+    --error: #ef4444;
 }
 
-.hero-bg {
-    background: linear-gradient(rgba(8,8,8,0.9), #080808), 
-                url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80');
-    background-size: cover;
-    background-position: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
-.glass {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+body {
+    background-color: var(--bg-dark);
+    background-image: radial-gradient(circle at top right, #1e293b, #0f172a);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+}
+
+/* Header */
+header {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.logo {
+    font-weight: 900;
+    font-size: 1.5rem;
+    letter-spacing: -1px;
+}
+
+.bolt { color: var(--accent); }
+
+.badge {
+    font-size: 0.7rem;
+    background: rgba(56, 189, 248, 0.1);
+    color: var(--accent);
+    padding: 4px 12px;
+    border-radius: 20px;
+    border: 1px solid rgba(56, 189, 248, 0.2);
+}
+
+/* Main */
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+h1 span { color: var(--accent); }
+
+.subtitle {
+    color: var(--text-dim);
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+/* Caja de Búsqueda */
+.search-box {
+    display: flex;
+    gap: 10px;
+    background: var(--card-bg);
+    padding: 8px;
+    border-radius: 16px;
     border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    margin-bottom: 30px;
 }
 
-.glass-card {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(20px);
-    border-radius: 2.5rem;
+input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    padding: 12px 20px;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 700;
+    outline: none;
 }
 
-.data-box {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1.5rem;
-    border-radius: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+button {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
 }
 
-.data-box .label {
+button:hover {
+    background: #006ae6;
+    transform: translateY(-2px);
+}
+
+/* Resultados (Efecto Cristal) */
+.results-card {
+    background: var(--card-bg);
+    border-radius: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 30px;
+    backdrop-filter: blur(12px);
+    animation: fadeIn 0.4s ease-out;
+}
+
+.results-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 20px;
+    margin-bottom: 25px;
+}
+
+.plate-display {
+    font-size: 2.2rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 5px;
+}
+
+#resDescription {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.specs-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    text-align: left;
+}
+
+.spec-item label {
     display: block;
     font-size: 0.7rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 0.5rem;
-    color: #666;
+    color: var(--text-dim);
+    margin-bottom: 4px;
+    font-weight: 700;
 }
 
-.data-box .value {
-    font-size: 1.5rem;
-    font-weight: 900;
-    font-style: italic;
-    text-transform: uppercase;
+.spec-item p {
+    font-weight: 700;
+    font-size: 1rem;
 }
 
-.highlight-blue { border-left: 4px solid #2563eb; }
+/* Loader */
+.loader {
+    width: 40px;
+    height: 40px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-left-color: var(--accent);
+    border-radius: 50%;
+    margin: 20px auto;
+    animation: spin 1s linear infinite;
+}
+
+/* Utilidades */
+.hidden { display: none !important; }
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    h1 { font-size: 2rem; }
+    .search-box { flex-direction: column; }
+    .specs-grid { grid-template-columns: 1fr; }
+}
