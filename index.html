@@ -1,142 +1,55 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfoMatricula - Informe Técnico Oficial</title>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2841247337828321" crossorigin="anonymous"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;900&display=swap');
-        body { background-color: #080808; font-family: 'Inter', sans-serif; color: white; }
-        .carbon { background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.9), #080808), 
-                        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80');
-            background-size: cover; background-position: center;
+<script>
+async function consultarVehiculo() {
+    const input = document.getElementById('plateInput');
+    const plate = input.value.trim().toUpperCase().replace(/[-\s]/g, "");
+    if (!plate) return;
+
+    const loader = document.getElementById('loader');
+    const results = document.getElementById('resultsContent');
+    const desc = document.getElementById('resDescription');
+    const sub = document.getElementById('resSub');
+
+    loader.classList.remove('hidden');
+    results.classList.add('hidden');
+
+    try {
+        // Llamada a TU backend
+        const response = await fetch(`http://localhost:3000/api/${plate}`);
+
+        if (!response.ok) {
+            throw new Error("MATRÍCULA NO ENCONTRADA");
         }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 2rem; }
-        .plate-font { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
-        .data-card { background: rgba(255,255,255,0.05); padding: 1.5rem; border-radius: 1rem; border: 1px solid rgba(255,255,255,0.05); }
-    </style>
-</head>
-<body class="carbon min-h-screen">
 
-    <nav class="p-6 border-b border-white/5 bg-black/40">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-gauge-high text-blue-500 text-3xl"></i>
-                <span class="text-2xl font-black italic uppercase">INFO<span class="text-blue-500">MATRICULA</span></span>
-            </div>
-            <span class="hidden md:block text-[10px] font-bold text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full uppercase italic">Multi-Server Sync</span>
-        </div>
-    </nav>
+        const res = await response.json();
+        const d = res.data || res;
 
-    <header class="hero-bg py-16 px-6 text-center">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-5xl md:text-7xl font-black mb-6 italic uppercase tracking-tighter leading-none text-white">DATOS <span class="text-blue-500">MOTOR</span></h1>
-            <div class="glass p-3 max-w-2xl mx-auto flex flex-col md:flex-row gap-3">
-                <input id="plateInput" type="text" placeholder="EJ: 1234BBB" class="flex-grow py-4 px-6 text-xl font-black text-slate-900 rounded-xl outline-none uppercase plate-font">
-                <button onclick="consultarVehiculo()" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-4 rounded-xl font-black uppercase transition-all shadow-xl active:scale-95">CONSULTAR</button>
-            </div>
-        </div>
-    </header>
+        document.getElementById('resPlate').innerText = plate;
+        document.getElementById('resMake').innerText = (d.marca || d.brand || "---").toUpperCase();
+        document.getElementById('resModel').innerText = (d.modelo || d.model || "---").toUpperCase();
 
-    <main class="max-w-6xl mx-auto py-10 px-6">
-        <div id="loader" class="text-center py-20 hidden">
-            <div class="animate-spin text-blue-500 text-5xl mb-4 inline-block"><i class="fas fa-sync-alt"></i></div>
-            <p class="text-gray-400 font-bold uppercase tracking-widest text-xs italic">Consultando múltiples bases de datos...</p>
-        </div>
+        let fecha = d.fecha_matriculacion || d.year || "---";
+        const anioMatch = String(fecha).match(/\d{4}/);
+        document.getElementById('resYear').innerText = anioMatch ? anioMatch[0] : "---";
 
-        <div id="resultsContent" class="hidden">
-            <div class="glass overflow-hidden border border-white/10 shadow-2xl">
-                <div class="p-8 border-b border-white/10 flex flex-col md:flex-row justify-between items-center bg-white/5">
-                    <div class="bg-white px-8 py-3 rounded-lg border-b-4 border-blue-600 shadow-xl">
-                        <h2 id="resPlate" class="text-4xl md:text-5xl font-black text-slate-800 plate-font">---</h2>
-                    </div>
-                    <div class="text-center md:text-right mt-4 md:mt-0">
-                        <p id="resDescription" class="font-black italic uppercase text-2xl text-white">---</p>
-                        <p id="resSub" class="text-blue-500 font-bold uppercase text-[10px] tracking-widest italic">Verificación Técnica</p>
-                    </div>
-                </div>
+        document.getElementById('resPower').innerText = (d.potencia || d.cv || "---") + " CV";
+        document.getElementById('resFuel').innerText = (d.combustible || "---").toUpperCase();
+        document.getElementById('resEngine').innerText = (d.cilindrada || "---") + " CC";
 
-                <div class="p-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div class="data-card"><p class="text-[10px] text-gray-500 font-black uppercase italic mb-1">Marca</p><p id="resMake" class="text-xl font-black text-white italic">---</p></div>
-                    <div class="data-card"><p class="text-[10px] text-gray-500 font-black uppercase italic mb-1">Modelo</p><p id="resModel" class="text-xl font-black text-white italic">---</p></div>
-                    <div class="data-card"><p class="text-[10px] text-gray-500 font-black uppercase italic mb-1">Año Registro</p><p id="resYear" class="text-xl font-black text-white italic">---</p></div>
-                    <div class="data-card border-l-4 border-green-500"><p class="text-[10px] text-green-500 font-black uppercase italic mb-1">Potencia</p><p id="resPower" class="text-xl font-black text-white italic">---</p></div>
-                    <div class="data-card border-l-4 border-blue-500"><p class="text-[10px] text-blue-500 font-black uppercase italic mb-1">Combustible</p><p id="resFuel" class="text-xl font-black text-white italic uppercase">---</p></div>
-                    <div class="data-card"><p class="text-[10px] text-gray-500 font-black uppercase italic mb-1">Cilindrada</p><p id="resEngine" class="text-xl font-black text-white italic">---</p></div>
-                </div>
-            </div>
-        </div>
-    </main>
+        desc.innerText = "VEHÍCULO LOCALIZADO";
+        desc.classList.remove('text-red-500');
+        sub.innerText = "Datos obtenidos correctamente";
 
-    <script>
-        async function consultarVehiculo() {
-            const plate = document.getElementById('plateInput').value.trim().toUpperCase().replace(/[-\s]/g, "");
-            if (!plate) return;
+    } catch (err) {
+        document.getElementById('resPlate').innerText = "AVISO";
+        desc.innerText = err.message;
+        desc.classList.add('text-red-500');
+        sub.innerText = "Verifica la matrícula.";
 
-            const loader = document.getElementById('loader');
-            const results = document.getElementById('resultsContent');
-            const desc = document.getElementById('resDescription');
+        ['resMake','resModel','resYear','resPower','resFuel','resEngine']
+            .forEach(id => document.getElementById(id).innerText = "---");
+    }
 
-            loader.classList.remove('hidden');
-            results.classList.add('hidden');
-
-            const apiKey = 'b4b6eb078cmsh025d40281b264c2p19be9ajsn045ec5167bae';
-            const host = 'api-matriculas-espana.p.rapidapi.com';
-
-            // LISTA DE ENDPOINTS PARA REINTENTAR AUTOMÁTICAMENTE
-            const endpoints = [`/get/${plate}`, `/matricula/${plate}`, `/info/${plate}`];
-            let success = false;
-            let finalData = null;
-
-            for (let url of endpoints) {
-                if (success) break;
-                try {
-                    console.log(`Intentando: ${url}`);
-                    const response = await fetch(`https://${host}${url}`, {
-                        method: 'GET',
-                        headers: { 'X-RapidAPI-Key': apiKey, 'X-RapidAPI-Host': host }
-                    });
-                    
-                    const res = await response.json();
-                    if (response.ok && !res.error && (res.marca || res.brand || (res.data && res.data.marca))) {
-                        finalData = res.data || res;
-                        success = true;
-                    }
-                } catch (e) { console.error("Fallo en endpoint: " + url); }
-            }
-
-            loader.classList.add('hidden');
-            results.classList.remove('hidden');
-
-            if (success && finalData) {
-                document.getElementById('resPlate').innerText = plate;
-                document.getElementById('resDescription').innerText = "LOCALIZADO";
-                document.getElementById('resDescription').className = "font-black italic uppercase text-2xl text-white";
-                
-                document.getElementById('resMake').innerText = (finalData.marca || finalData.brand || "---").toUpperCase();
-                document.getElementById('resModel').innerText = (finalData.modelo || finalData.model || "---").toUpperCase();
-                
-                let fecha = finalData.fecha_matriculacion || finalData.year || finalData.anio || "---";
-                document.getElementById('resYear').innerText = String(fecha).match(/\d{4}/) ? String(fecha).match(/\d{4}/)[0] : "---";
-
-                document.getElementById('resPower').innerText = (finalData.potencia || finalData.hp || finalData.cv || "---") + " CV";
-                document.getElementById('resFuel').innerText = (finalData.combustible || finalData.fuel || "---").toUpperCase();
-                document.getElementById('resEngine').innerText = (finalData.cilindrada || finalData.cc || "---") + " CC";
-            } else {
-                document.getElementById('resPlate').innerText = "AVISO";
-                desc.innerText = "NO ENCONTRADO";
-                desc.className = "font-black italic uppercase text-2xl text-red-500";
-                
-                ['resMake', 'resModel', 'resYear', 'resPower', 'resFuel', 'resEngine'].forEach(id => {
-                    document.getElementById(id).innerText = "---";
-                });
-            }
-        }
-    </script>
-</body>
-</html>
+    loader.classList.add('hidden');
+    results.classList.remove('hidden');
+}
+</script>
