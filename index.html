@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HistorialVehículo - Informes gratis de vehículos</title>
+    <title>InfoMatricula - Informes técnicos de vehículos</title>
     
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2841247337828321" crossorigin="anonymous"></script>
 
@@ -14,165 +14,122 @@
         body { background-color: #080808; font-family: 'Inter', sans-serif; color: white; }
         .carbon { background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
         .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.7), #080808), 
-                        url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80');
+            background: linear-gradient(rgba(0,0,0,0.85), #080808), 
+                        url('https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&q=80');
             background-size: cover; background-position: center;
         }
-        .glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); }
         .plate-font { font-family: 'Orbitron', sans-serif; letter-spacing: 3px; }
-        .ad-box { background: rgba(255,255,255,0.02); border-radius: 12px; overflow: hidden; text-align: center; margin: 15px 0; }
+        .ad-container { background: rgba(255,255,255,0.02); border-radius: 12px; min-height: 100px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin: 20px 0; }
     </style>
 </head>
 <body class="carbon">
 
-    <div class="ad-box max-w-7xl mx-auto mt-4">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-2841247337828321"
-             data-ad-slot="auto"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
+    <div class="ad-container max-w-7xl mx-auto px-4">
+        <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2841247337828321" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
         <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
     </div>
 
     <nav class="p-6 flex justify-between items-center border-b border-white/5 bg-black/40 sticky top-0 z-50">
         <div class="flex items-center gap-2">
-            <i class="fas fa-car-side text-blue-500 text-3xl"></i>
-            <span class="text-2xl font-black italic uppercase">HISTORIAL<span class="text-blue-500">AUTO</span></span>
+            <i class="fas fa-microchip text-blue-500 text-3xl"></i>
+            <span class="text-2xl font-black italic uppercase">INFO<span class="text-blue-500">MATRICULA</span></span>
         </div>
-        <div class="hidden md:block text-[10px] font-bold text-green-500 border border-green-500/20 px-4 py-1 rounded-full bg-green-500/5 uppercase tracking-widest italic">
-            Consulta Gratuita Ilimitada
-        </div>
+        <div class="text-[10px] font-bold text-green-500 border border-green-500/20 px-4 py-1 rounded-full bg-green-500/5 uppercase tracking-widest italic">Conexión RapidAPI Activa</div>
     </nav>
 
-    <header class="hero-bg py-20 px-6 text-center">
+    <header class="hero-bg py-24 px-6 text-center">
         <div class="max-w-4xl mx-auto">
-            <h1 class="text-6xl md:text-7xl font-black mb-6 italic uppercase tracking-tighter leading-none text-white">
-                Informe <span class="text-blue-500">DGT</span> Gratis
-            </h1>
-            <p class="text-gray-400 text-lg mb-10 font-light italic italic">Accede a la ficha técnica: Potencia (CV), Combustible y Año de cualquier vehículo.</p>
+            <h1 class="text-6xl md:text-8xl font-black mb-6 italic uppercase tracking-tighter leading-none text-white">DATOS <span class="text-blue-500">LIBRES</span></h1>
+            <p class="text-gray-400 text-lg mb-12 font-light italic">Consulta técnica al instante: CV, Cilindrada, Combustible y Año de registro.</p>
 
             <div class="glass p-3 rounded-2xl max-w-2xl mx-auto flex flex-col md:flex-row gap-3">
-                <input id="plateInput" type="text" placeholder="INTRODUCE MATRÍCULA" 
-                       class="flex-grow py-5 px-6 text-2xl font-black text-slate-900 rounded-xl outline-none uppercase plate-font">
-                <button onclick="consultarVehiculo()" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-xl font-black uppercase text-lg transition-all shadow-xl active:scale-95">
-                    ANALIZAR <i class="fas fa-search ml-2"></i>
-                </button>
+                <input id="plateInput" type="text" placeholder="MATRÍCULA" class="flex-grow py-5 px-6 text-2xl font-black text-slate-900 rounded-xl outline-none uppercase plate-font">
+                <button onclick="consultarRapidAPI()" class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-xl font-black uppercase text-lg transition-all shadow-xl active:scale-95">CONSULTAR</button>
             </div>
         </div>
     </header>
 
     <main class="max-w-7xl mx-auto py-12 px-6">
-        
         <div id="loader" class="text-center py-20 hidden">
             <div class="animate-spin text-blue-500 text-6xl mb-6 inline-block"><i class="fas fa-circle-notch"></i></div>
-            <p class="font-bold text-gray-500 uppercase tracking-widest text-sm">Consultando Registro Nacional de Vehículos...</p>
+            <p class="font-bold text-gray-400 uppercase tracking-widest text-sm">Escaneando Registro Central...</p>
         </div>
 
         <div id="resultsContent" class="hidden grid lg:grid-cols-4 gap-8">
-            
             <div class="lg:col-span-3 space-y-8">
-                <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl">
+                <div class="glass rounded-[2.5rem] overflow-hidden shadow-2xl border border-white/10">
                     <div class="p-10 border-b border-white/10 flex flex-col md:flex-row justify-between items-center bg-white/5">
-                        <div class="bg-white px-10 py-4 rounded border-4 border-slate-300 shadow-md">
-                            <h2 id="resPlate" class="text-6xl font-black text-slate-800 plate-font">---</h2>
+                        <div class="bg-white px-10 py-4 rounded-lg border-b-8 border-blue-600 shadow-2xl">
+                            <h2 id="resPlate" class="text-6xl font-black text-slate-800 plate-font tracking-widest">---</h2>
                         </div>
-                        <div class="text-right mt-6 md:mt-0">
-                            <p id="resDescription" class="text-white font-black italic uppercase text-3xl tracking-tighter">VEHÍCULO IDENTIFICADO</p>
-                            <p class="text-blue-500 font-bold uppercase text-xs tracking-widest italic">Datos extraídos correctamente</p>
+                        <div class="text-right mt-6 md:mt-0 text-white">
+                            <p id="resDescription" class="font-black italic uppercase text-3xl tracking-tighter">VEHÍCULO IDENTIFICADO</p>
+                            <p class="text-blue-500 font-bold uppercase text-xs tracking-widest italic">Ficha Técnica vía RapidAPI</p>
                         </div>
                     </div>
 
-                    <div class="p-10 grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
-                        <div><p class="text-[11px] text-gray-500 font-black uppercase tracking-widest mb-1">Marca</p>
-                             <p id="resMake" class="text-3xl font-black text-white italic uppercase">---</p></div>
-                        <div><p class="text-[11px] text-gray-500 font-black uppercase tracking-widest mb-1">Modelo</p>
-                             <p id="resModel" class="text-3xl font-black text-white italic uppercase">---</p></div>
-                        <div><p class="text-[11px] text-gray-500 font-black uppercase tracking-widest mb-1">Año</p>
-                             <p id="resYear" class="text-3xl font-black text-white italic">---</p></div>
+                    <div class="p-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+                        <div class="bg-white/5 p-6 rounded-2xl">
+                            <p class="text-[11px] text-gray-500 font-black uppercase tracking-widest mb-1">Marca</p>
+                            <p id="resMake" class="text-3xl font-black text-white uppercase italic">---</p>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-2xl">
+                            <p class="text-[11px] text-gray-500 font-black uppercase tracking-widest mb-1">Modelo</p>
+                            <p id="resModel" class="text-3xl font-black text-white uppercase italic">---</p>
+                        </div>
+                        <div class="bg-white/5 p-6 rounded-2xl">
+                            <p class="text-[11px] text-gray-500 font-black uppercase tracking-widest mb-1">Año</p>
+                            <p id="resYear" class="text-3xl font-black text-white italic">---</p>
+                        </div>
                         
                         <div class="bg-green-600/10 p-6 rounded-2xl border border-green-500/20">
                             <p class="text-[11px] text-green-500 font-black uppercase tracking-widest mb-1">Potencia</p>
-                            <p id="resPower" class="text-3xl font-black text-white italic">---</p></div>
+                            <p id="resPower" class="text-3xl font-black text-white italic">---</p>
+                        </div>
                         <div class="bg-blue-600/10 p-6 rounded-2xl border border-blue-500/20">
                             <p class="text-[11px] text-blue-500 font-black uppercase tracking-widest mb-1">Combustible</p>
-                            <p id="resFuel" class="text-3xl font-black text-white italic uppercase">---</p></div>
+                            <p id="resFuel" class="text-3xl font-black text-white uppercase italic">---</p>
+                        </div>
                         <div class="bg-white/5 p-6 rounded-2xl">
                             <p class="text-[11px] text-gray-500 font-black uppercase tracking-widest mb-1">Cilindrada</p>
-                            <p id="resEngine" class="text-3xl font-black text-white italic">---</p></div>
-
-                        <div class="opacity-40 border border-white/5 p-4 rounded-xl"><p class="text-[10px] font-black uppercase mb-1 italic italic">Nº Propietarios</p>
-                             <p class="text-sm font-bold uppercase"><i class="fas fa-lock mr-2"></i> Bloqueado</p></div>
-                        <div class="opacity-40 border border-white/5 p-4 rounded-xl"><p class="text-[10px] font-black uppercase mb-1 italic">Cargas / Embargos</p>
-                             <p class="text-sm font-bold uppercase"><i class="fas fa-shield-alt mr-2"></i> Ver Registro</p></div>
-                        <div class="opacity-40 border border-white/5 p-4 rounded-xl"><p class="text-[10px] font-black uppercase mb-1 italic">Historial ITV</p>
-                             <p class="text-sm font-bold uppercase"><i class="fas fa-history mr-2"></i> Consultar</p></div>
+                            <p id="resEngine" class="text-3xl font-black text-white italic">---</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="ad-box w-full min-h-[280px]">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-2841247337828321"
-                         data-ad-slot="auto"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
+                <div class="ad-container w-full min-h-[250px]">
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2841247337828321" data-ad-slot="auto" data-ad-format="auto" data-full-width-responsive="true"></ins>
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
-                </div>
-
-                <div class="glass p-10 rounded-3xl space-y-6">
-                    <h3 class="text-2xl font-black italic uppercase tracking-tighter">Preguntas Frecuentes</h3>
-                    <div class="grid md:grid-cols-2 gap-6 text-sm">
-                        <div>
-                            <p class="font-bold text-blue-400 mb-2 underline">¿Es realmente gratis?</p>
-                            <p class="text-gray-400">Sí, nuestro servicio se financia mediante publicidad para ofrecer datos técnicos básicos sin coste para el usuario.</p>
-                        </div>
-                        <div>
-                            <p class="font-bold text-blue-400 mb-2 underline">¿De dónde vienen los datos?</p>
-                            <p class="text-gray-400">La información mostrada proviene de bases de datos públicas agregadas y registros técnicos de industria.</p>
-                        </div>
-                    </div>
                 </div>
             </div>
 
             <div class="hidden lg:block">
-                <div class="ad-box w-full h-[600px] sticky top-28">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-2841247337828321"
-                         data-ad-slot="auto"
-                         data-ad-format="vertical"
-                         data-full-width-responsive="true"></ins>
+                <div class="ad-container w-full h-[600px] sticky top-28">
+                    <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-2841247337828321" data-ad-slot="auto" data-ad-format="vertical" data-full-width-responsive="true"></ins>
                     <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
                 </div>
             </div>
-
         </div>
     </main>
 
-    <footer class="py-12 text-center border-t border-white/5 mt-10 bg-black/20">
-        <p class="text-[10px] text-gray-600 font-black uppercase tracking-widest italic mb-4">© 2026 HistorialAuto - Consulta de Fichas Técnicas Públicas</p>
+    <footer class="py-12 text-center border-t border-white/5 mt-10 bg-black/40">
+        <p class="text-[10px] text-gray-600 font-black uppercase tracking-widest italic mb-4">© 2026 InfoMatricula - Fuente: RapidAPI Open Data</p>
         <button onclick="toggleLegal()" class="text-xs text-gray-500 hover:text-white transition-colors underline">Política de Privacidad y Cookies</button>
     </footer>
 
     <div id="legalModal" class="fixed inset-0 bg-black/95 backdrop-blur-md z-[100] hidden items-center justify-center p-6">
         <div class="bg-zinc-900 border border-white/10 p-8 rounded-3xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h3 class="text-xl font-bold text-white uppercase tracking-tighter">Aviso Legal y Privacidad</h3>
-                <button onclick="toggleLegal()" class="text-white text-3xl leading-none">&times;</button>
-            </div>
-            <div class="space-y-4 text-sm text-gray-400 leading-relaxed">
-                <p><strong>1. Uso de cookies:</strong> Este sitio utiliza cookies propias y de terceros (Google AdSense) para personalizar el contenido y los anuncios.</p>
-                <p><strong>2. Google AdSense:</strong> Los proveedores de terceros, incluido Google, utilizan cookies para publicar anuncios basándose en las visitas anteriores de un usuario a este sitio web o a otros sitios web.</p>
-                <p><strong>3. Privacidad:</strong> No recopilamos ni almacenamos datos personales ni matrículas consultadas en nuestros servidores.</p>
-                <p><strong>4. Exención de responsabilidad:</strong> La información es meramente informativa. Para validez legal, solicite un informe oficial en la DGT.</p>
-            </div>
-            <button onclick="toggleLegal()" class="w-full mt-8 bg-blue-600 py-4 rounded-xl font-black text-white uppercase">Entendido</button>
+            <h3 class="text-xl font-bold text-white uppercase mb-6">Información Legal</h3>
+            <p class="text-sm text-gray-400 mb-4">Utilizamos cookies de AdSense para monetizar este sitio. Los datos técnicos son públicos. No almacenamos historiales de búsqueda.</p>
+            <button onclick="toggleLegal()" class="w-full bg-blue-600 py-4 rounded-xl font-bold text-white uppercase">Cerrar</button>
         </div>
     </div>
 
     <script>
-        const USERNAME = "MrManuwT";
+        // TU CONFIGURACIÓN ACTUALIZADA
+        const RAPIDAPI_KEY = "b4b6eb078cmsh025d40281b264c2p19be9ajsn045ec5167bae";
+        const RAPIDAPI_HOST = "spanish-car-registry.p.rapidapi.com";
 
         function toggleLegal() {
             const modal = document.getElementById('legalModal');
@@ -180,54 +137,47 @@
             modal.classList.toggle('flex');
         }
 
-        function extraer(v) {
-            if (!v) return null;
-            if (typeof v === 'object') return v.CurrentTextValue || v.Value || Object.values(v)[0];
-            return v;
-        }
-
-        async function consultarVehiculo() {
+        async function consultarRapidAPI() {
             const plate = document.getElementById('plateInput').value.trim().toUpperCase();
             if (!plate) return;
 
             document.getElementById('loader').classList.remove('hidden');
             document.getElementById('resultsContent').classList.add('hidden');
 
+            const options = {
+                method: 'GET',
+                headers: {
+                    'X-RapidAPI-Key': RAPIDAPI_KEY,
+                    'X-RapidAPI-Host': RAPIDAPI_HOST
+                }
+            };
+
             try {
-                const api = `https://www.regcheck.org.uk/api/reg.asmx/CheckSpain?RegistrationNumber=${plate}&username=${USERNAME}`;
-                const response = await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(api)}`);
-                const json = await response.json();
-                const parser = new DOMParser();
-                const xmlDoc = parser.parseFromString(json.contents, "text/xml");
-                const vehicleJson = xmlDoc.getElementsByTagName("vehicleJson")[0]?.textContent;
+                // He usado un endpoint genérico. Asegúrate de que tu API en RapidAPI sea "Spanish Car Registry"
+                const response = await fetch(`https://${RAPIDAPI_HOST}/getVehicleInfo?plate=${plate}`, options);
+                const data = await response.json();
 
-                if (!vehicleJson) throw new Error();
-                const data = JSON.parse(vehicleJson);
-
-                // --- Lógica de Extracción ---
-                const brand = extraer(data.Make || data.MakeDescription) || "N/D";
-                const model = extraer(data.Model || data.ModelDescription) || "N/D";
-                const year = extraer(data.RegistrationYear || data.Year) || "N/D";
-                const fuel = extraer(data.FuelType || data.Fuel) || "N/D";
-                const hp = data.HorsePower || data.PowerKW || "---";
-                const cc = data.EngineSize || "---";
-
-                // --- Inyección ---
+                // MAPEO DE DATOS BASADO EN EL JSON TÍPICO DE RAPIDAPI
                 document.getElementById('resPlate').innerText = plate;
-                document.getElementById('resMake').innerText = brand.toUpperCase();
-                document.getElementById('resModel').innerText = model.toUpperCase();
-                document.getElementById('resYear').innerText = year;
-                document.getElementById('resPower').innerText = hp !== "---" ? hp + " CV" : "CONSULTAR";
-                document.getElementById('resFuel').innerText = fuel.toUpperCase();
-                document.getElementById('resEngine').innerText = cc !== "---" ? cc + " CC" : "N/D";
-                document.getElementById('resDescription').innerText = (extraer(data.Description) || "BÚSQUEDA FINALIZADA").toUpperCase();
+                document.getElementById('resMake').innerText = (data.brand || data.make || "N/D").toUpperCase();
+                document.getElementById('resModel').innerText = (data.model || "N/D").toUpperCase();
+                document.getElementById('resYear').innerText = data.registration_date || data.year || "N/D";
+                
+                // Procesar Potencia
+                const power = data.hp || data.power_hp || data.power || "---";
+                document.getElementById('resPower').innerText = power !== "---" ? power + " CV" : "CONSULTAR";
+                
+                document.getElementById('resFuel').innerText = (data.fuel || data.fuel_type || "N/D").toUpperCase();
+                document.getElementById('resEngine').innerText = (data.engine_cc || data.displacement || "---") + " CC";
+                document.getElementById('resDescription').innerText = (data.description || "VEHÍCULO LOCALIZADO").toUpperCase();
 
                 document.getElementById('loader').classList.add('hidden');
                 document.getElementById('resultsContent').classList.remove('hidden');
                 document.getElementById('resultsContent').scrollIntoView({ behavior: 'smooth' });
 
             } catch (err) {
-                alert("Matrícula no encontrada o límite de API alcanzado.");
+                console.error(err);
+                alert("Error: Revisa que la API esté activa en RapidAPI o que la matrícula sea válida.");
                 document.getElementById('loader').classList.add('hidden');
             }
         }
