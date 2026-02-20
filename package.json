@@ -1,15 +1,7 @@
 {
-"name": "historial-vehiculo",
-"version": "1.0.0",
-"description": "API consulta matrículas",
-"main": "server.js",
-"type": "commonjs",
-"scripts": {
-"start": "node server.js"
-},
-"dependencies": {
-"cors": "^2.8.5",
-"express": "^4.19.2",
-"node-fetch": "^2.6.7"
-}
+  "api": {
+    "key": "b4b6eb078cmsh025d40281b264c2p19be9ajsn045ec5167bae",
+    "host": "api-matriculas-espana.p.rapidapi.com",
+    "endpoints": ["/get/", "/matricula/"]
+  }
 }
