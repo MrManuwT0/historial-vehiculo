@@ -1,43 +1,41 @@
 async function consultarVehiculo() {
     const plateInput = document.getElementById('plateInput');
-    const plate = plateInput.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
+    const plate = plateInput.value.trim().toUpperCase();
     
-    if (!plate) return;
+    if (!plate) return alert("Pon una matrícula válida");
 
-    const loader = document.getElementById('loader');
-    const results = document.getElementById('resultsContent');
-
-    loader.classList.remove('hidden');
-    results.classList.add('hidden');
+    document.getElementById('loader').classList.remove('hidden');
+    document.getElementById('resultsContent').classList.add('hidden');
 
     try {
-        // Render actúa como el puente hacia RapidAPI
+        // LLAMADA AL NODO DE RENDER
         const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
-        
-        if (!response.ok) throw new Error("No encontrado");
+        const result = await response.json();
 
-        const json = await response.json();
-        const data = json.data || json;
+        // IMPORTANTE: RapidAPI a veces envuelve los datos en un objeto .data
+        const info = result.data ? result.data : result;
 
-        // Mapeo de datos en la interfaz Carbon
+        if (!info || info.error) {
+            throw new Error("No hay datos para esta matrícula");
+        }
+
+        // RELLENAR LOS CAMPOS (IDs del HTML Premium Carbon)
         document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = (data.marca || "DESCONOCIDO").toUpperCase();
-        document.getElementById('resModel').innerText = (data.modelo || "S/N").toUpperCase();
-        document.getElementById('resPower').innerText = (data.potencia || "---") + " CV";
-        document.getElementById('resFuel').innerText = (data.combustible || "---").toUpperCase();
-        document.getElementById('resEngine').innerText = (data.cilindrada || "---") + " CC";
-        
-        const fecha = data.fecha_matriculacion || "";
-        const anio = fecha.match(/\d{4}/);
-        document.getElementById('resYear').innerText = anio ? anio[0] : "---";
+        document.getElementById('resMake').innerText = info.marca || "DESCONOCIDO";
+        document.getElementById('resModel').innerText = info.modelo || "---";
+        document.getElementById('resPower').innerText = (info.potencia || "---") + " CV";
+        document.getElementById('resYear').innerText = info.fecha_matriculacion || "---";
+        document.getElementById('resEngine').innerText = (info.cilindrada || "---") + " CC";
+        document.getElementById('resFuel').innerText = info.combustible || "---";
 
-        // FOTO DINÁMICA: Usamos la marca para buscar una foto de catálogo
-        document.getElementById('vehiclePhoto').src = `https://source.unsplash.com/800x600/?car,${data.marca}`;
+        // IMAGEN DINÁMICA
+        document.getElementById('vehiclePhoto').src = `https://source.unsplash.com/800x400/?car,${info.marca}`;
 
-        results.classList.remove('hidden');
-    } catch (err) {
-        alert("Matrícula no encontrada en la base de datos.");
+        document.getElementById('resultsContent').classList.remove('hidden');
+
+    } catch (error) {
+        alert("Error: " + error.message);
     } finally {
-        loader.classList.add('hidden');
+        document.getElementById('loader').classList.add('hidden');
     }
 }
