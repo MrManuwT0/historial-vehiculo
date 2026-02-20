@@ -4,13 +4,12 @@ async function consultarVehiculo() {
 
     const loader = document.getElementById('loader');
     const results = document.getElementById('resultsContent');
-    const desc = document.getElementById('resDescription');
-
+    
     loader.classList.remove('hidden');
     results.classList.add('hidden');
 
-    // REEMPLAZA ESTA URL con la que te de Render (ej: https://tu-app.onrender.com)
-    const RENDER_URL = "https://tu-proyecto-en-render.onrender.com";
+    // PEGA AQUÍ LA URL QUE TE DIO RENDER
+    const RENDER_URL = "https://tu-api-aqui.onrender.com"; 
 
     try {
         const response = await fetch(`${RENDER_URL}/consulta/${plate}`);
@@ -18,23 +17,26 @@ async function consultarVehiculo() {
 
         if (!response.ok || data.error) throw new Error("MATRÍCULA NO ENCONTRADA");
 
-        // Inyectar Datos
-        document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = (data.marca || data.brand || "---").toUpperCase();
-        document.getElementById('resModel').innerText = (data.modelo || data.model || "---").toUpperCase();
+        const d = data.data || data;
         
-        const anio = String(data.fecha_matriculacion || data.year).match(/\d{4}/);
+        // Inyectar datos en el HTML
+        document.getElementById('resPlate').innerText = plate;
+        document.getElementById('resMake').innerText = (d.marca || d.brand || "---").toUpperCase();
+        document.getElementById('resModel').innerText = (d.modelo || d.model || "---").toUpperCase();
+        
+        let anio = String(d.fecha_matriculacion || d.year || "---").match(/\d{4}/);
         document.getElementById('resYear').innerText = anio ? anio[0] : "---";
-        document.getElementById('resPower').innerText = (data.potencia || "---") + " CV";
-        document.getElementById('resFuel').innerText = (data.combustible || "---").toUpperCase();
-        document.getElementById('resEngine').innerText = (data.cilindrada || "---") + " CC";
+        document.getElementById('resPower').innerText = (d.potencia || "---") + " CV";
+        document.getElementById('resFuel').innerText = (d.combustible || "---").toUpperCase();
+        document.getElementById('resEngine').innerText = (d.cilindrada || "---") + " CC";
 
-        desc.innerText = "LOCALIZADO";
-        desc.className = "font-black italic uppercase text-3xl text-white";
+        document.getElementById('resDescription').innerText = "LOCALIZADO";
+        document.getElementById('resDescription').style.color = "white";
 
     } catch (err) {
-        desc.innerText = err.message;
-        desc.className = "font-black italic uppercase text-3xl text-red-500";
+        document.getElementById('resPlate').innerText = "AVISO";
+        document.getElementById('resDescription').innerText = "NO ENCONTRADO";
+        document.getElementById('resDescription').style.color = "#ef4444";
     } finally {
         loader.classList.add('hidden');
         results.classList.remove('hidden');
