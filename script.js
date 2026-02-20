@@ -6,42 +6,37 @@ async function consultarVehiculo() {
 
     const loader = document.getElementById('loader');
     const results = document.getElementById('resultsContent');
-    const resDescription = document.getElementById('resDescription');
 
     loader.classList.remove('hidden');
     results.classList.add('hidden');
 
-    // Render actuando ÚNICAMENTE como puente
-    const PUENTE_URL = "https://api-historial-vehiculo.onrender.com";
+    // Usamos Render como puente invisible
+    const PROXY_URL = "https://api-historial-vehiculo.onrender.com";
 
     try {
-        const response = await fetch(`${PUENTE_URL}/${plate}`);
+        const response = await fetch(`${PROXY_URL}/${plate}`);
         
         if (!response.ok) throw new Error("MATRÍCULA NO ENCONTRADA");
 
         const data = await response.json();
         const d = data.data || data;
 
-        // Inyectar en el HTML
+        // Rellenar la ficha técnica
         document.getElementById('resPlate').innerText = plate;
         document.getElementById('resMake').innerText = (d.marca || d.brand || "---").toUpperCase();
         document.getElementById('resModel').innerText = (d.modelo || d.model || "---").toUpperCase();
-        
-        let fecha = d.fecha_matriculacion || d.year || "---";
-        const anioMatch = String(fecha).match(/\d{4}/);
-        document.getElementById('resYear').innerText = anioMatch ? anioMatch[0] : "---";
+        document.getElementById('resYear').innerText = d.year || (d.fecha_matriculacion ? d.fecha_matriculacion.split("/")[2] : "---");
+        document.getElementById('resPower').innerText = (d.potencia || "---") + " CV";
+        document.getElementById('resFuel').innerText = (d.combustible || "---").toUpperCase();
+        document.getElementById('resEngine').innerText = (d.cilindrada || "---") + " CC";
 
-        document.getElementById('resPower').innerText = (d.potencia || d.cv || "---") + " CV";
-        document.getElementById('resFuel').innerText = (d.combustible || d.fuel || "---").toUpperCase();
-        document.getElementById('resEngine').innerText = (d.cilindrada || d.cc || "---") + " CC";
-
-        resDescription.innerText = "LOCALIZADO";
-        resDescription.style.color = "white";
+        document.getElementById('resDescription').innerText = "LOCALIZADO";
+        document.getElementById('resDescription').style.color = "white";
 
     } catch (err) {
-        document.getElementById('resPlate').innerText = "ERROR";
-        resDescription.innerText = err.message;
-        resDescription.style.color = "#ff4444";
+        document.getElementById('resPlate').innerText = "AVISO";
+        document.getElementById('resDescription').innerText = "NO ENCONTRADO";
+        document.getElementById('resDescription').style.color = "#ff4444";
     } finally {
         loader.classList.add('hidden');
         results.classList.remove('hidden');
