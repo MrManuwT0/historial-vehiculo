@@ -1,51 +1,46 @@
 async function consultarVehiculo() {
     const plateInput = document.getElementById('plateInput');
-    // Limpieza: quitamos espacios y guiones para que el puente no se rompa
     const plate = plateInput.value.trim().toUpperCase().replace(/[^A-Z0-9]/g, "");
-    
     if (!plate) return;
 
     const loader = document.getElementById('loader');
     const results = document.getElementById('resultsContent');
-    const resDescription = document.getElementById('resDescription');
 
     loader.classList.remove('hidden');
     results.classList.add('hidden');
 
-    const PROXY_URL = "https://api-historial-vehiculo.onrender.com";
-
     try {
-        // Llamada limpia al puente
-        const response = await fetch(`${PROXY_URL}/${plate}`);
+        // Llamada al puente de Render
+        const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
         
         if (!response.ok) throw new Error("MATRÍCULA NO ENCONTRADA");
 
         const data = await response.json();
         const d = data.data || data;
 
-        // Mapeo de campos (ajustado a los IDs de tu diseño)
+        // Inyectar Datos en UI Carbon
         document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = (d.marca || d.brand || "---").toUpperCase();
-        document.getElementById('resModel').innerText = (d.modelo || d.model || "---").toUpperCase();
-        
-        // Formatear año
-        let fecha = d.fecha_matriculacion || d.year || "---";
-        const anioMatch = String(fecha).match(/\d{4}/);
-        document.getElementById('resYear').innerText = anioMatch ? anioMatch[0] : "---";
-
-        document.getElementById('resPower').innerText = (d.potencia || "---") + " CV";
+        document.getElementById('resMake').innerText = (d.marca || "DESCONOCIDO").toUpperCase();
+        document.getElementById('resModel').innerText = (d.modelo || "S/N").toUpperCase();
+        document.getElementById('resPower').innerText = (d.potencia || d.cv || "---") + " CV";
         document.getElementById('resFuel').innerText = (d.combustible || "---").toUpperCase();
         document.getElementById('resEngine').innerText = (d.cilindrada || "---") + " CC";
+        
+        const fecha = d.fecha_matriculacion || d.year || "";
+        const anio = fecha.match(/\d{4}/);
+        document.getElementById('resYear').innerText = anio ? anio[0] : "---";
 
-        resDescription.innerText = "VERIFICADO";
-        resDescription.style.color = "#ffffff";
+        // Cargar Foto del Vehículo (Unsplash dinámico)
+        const photo = document.getElementById('vehiclePhoto');
+        photo.src = `https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=800&q=80`; // Imagen base elegante
+        // Intentar buscar por marca si es posible
+        photo.src = `https://source.unsplash.com/800x600/?car,${d.marca.toLowerCase()}`;
+
+        results.classList.remove('hidden');
 
     } catch (err) {
-        document.getElementById('resPlate').innerText = "ERROR";
-        resDescription.innerText = err.message;
-        resDescription.style.color = "#ff4444";
+        alert("ERROR: Matrícula no encontrada en la base de datos.");
     } finally {
         loader.classList.add('hidden');
-        results.classList.remove('hidden');
     }
 }
