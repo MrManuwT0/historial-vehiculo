@@ -2,97 +2,40 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>InfoMatricula | Premium Vehicle Reports</title>
-    
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2841247337828321" crossorigin="anonymous"></script>
-    
+    <title>InfoMatricula | Historial</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-</head>
-<body class="bg-[#080808] text-white min-h-screen">
+    <link rel="stylesheet" href="style.css"> </head>
+<body class="bg-[#080808] text-white">
 
-    <nav class="p-6 border-b border-white/5 bg-black/40 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <i class="fas fa-gauge-high text-blue-500 text-3xl"></i>
-                <span class="text-2xl font-black italic uppercase tracking-tighter">INFO<span class="text-blue-500">MATRICULA</span></span>
-            </div>
-            <div class="flex items-center gap-4">
-                <span class="hidden md:inline text-[10px] font-bold text-blue-400 border border-blue-500/20 px-3 py-1 rounded-full uppercase italic">Database Spain v3.0</span>
-            </div>
-        </div>
-    </nav>
-
-    <header class="hero-section py-20 px-6 text-center relative overflow-hidden">
-        <div class="max-w-4xl mx-auto relative z-10">
-            <h1 class="text-6xl md:text-8xl font-black mb-6 italic uppercase tracking-tighter leading-none">
-                DATOS <span class="text-blue-600">DGT</span>
-            </h1>
-            <p class="text-gray-400 text-lg mb-10 font-medium italic">Acceso instantáneo a especificaciones técnicas oficiales.</p>
-
-            <div class="glass-input p-2 rounded-2xl max-w-2xl mx-auto flex flex-col md:flex-row gap-3">
-                <input id="plateInput" type="text" placeholder="EJ: 1234BBB" 
-                       class="flex-grow py-5 px-6 text-2xl font-black text-slate-900 rounded-xl outline-none uppercase plate-font">
-                <button onclick="consultarVehiculo()" 
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-5 rounded-xl font-black uppercase text-lg transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] active:scale-95">
-                    CONSULTAR
-                </button>
-            </div>
-        </div>
-    </header>
-
-    <main class="max-w-6xl mx-auto py-12 px-6">
-        <div id="loader" class="text-center py-20 hidden">
-            <div class="relative inline-block">
-                <div class="w-20 h-20 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin"></div>
-                <i class="fas fa-microchip absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-blue-500 text-xl"></i>
-            </div>
-            <p class="mt-6 font-bold text-gray-500 uppercase tracking-widest text-xs italic">Escaneando registros nacionales...</p>
+    <div class="max-w-4xl mx-auto py-20 px-6 text-center">
+        <h1 class="text-6xl font-black mb-10 italic uppercase">INFO<span class="text-blue-500">MATRICULA</span></h1>
+        
+        <div class="bg-white/5 p-4 rounded-2xl backdrop-blur-md border border-white/10 flex gap-2">
+            <input id="plateInput" type="text" placeholder="1234BBB" class="flex-grow p-4 rounded-xl text-black font-bold uppercase text-2xl outline-none">
+            <button onclick="consultarVehiculo()" class="bg-blue-600 px-8 rounded-xl font-bold uppercase hover:bg-blue-700 transition-all">Buscar</button>
         </div>
 
-        <div id="resultsContent" class="hidden">
-            <div class="glass-card overflow-hidden border border-white/10 shadow-2xl">
-                <div class="p-10 border-b border-white/10 flex flex-col md:flex-row justify-between items-center bg-white/5">
-                    <div class="plate-display bg-white px-10 py-4 rounded-lg border-b-8 border-blue-600 shadow-2xl">
-                        <h2 id="resPlate" class="text-5xl md:text-6xl font-black text-slate-800 tracking-tighter">---</h2>
-                    </div>
-                    <div class="text-center md:text-right mt-6 md:mt-0">
-                        <p id="resDescription" class="font-black italic uppercase text-3xl tracking-tighter">LOCALIZADO</p>
-                        <p class="text-blue-500 font-bold uppercase text-xs tracking-widest italic">Informe Técnico Verificado</p>
-                    </div>
+        <div id="loader" class="mt-10 hidden"><i class="fas fa-sync fa-spin text-4xl text-blue-500"></i></div>
+
+        <div id="resultsContent" class="mt-10 hidden text-left">
+            <div class="bg-white/5 border border-white/10 rounded-[2rem] p-8">
+                <div class="flex justify-between items-center mb-8 border-b border-white/10 pb-6">
+                    <div class="bg-white text-black px-6 py-2 rounded-lg font-black text-4xl" id="resPlate">---</div>
+                    <div id="resDescription" class="font-black italic text-2xl">---</div>
                 </div>
-
-                <div class="p-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-                    <div class="data-box">
-                        <span class="label">Marca</span>
-                        <p id="resMake" class="value">---</p>
-                    </div>
-                    <div class="data-box">
-                        <span class="label">Modelo</span>
-                        <p id="resModel" class="value">---</p>
-                    </div>
-                    <div class="data-box">
-                        <span class="label">Año Registro</span>
-                        <p id="resYear" class="value">---</p>
-                    </div>
-                    <div class="data-box highlight-green">
-                        <span class="label text-green-500">Potencia</span>
-                        <p id="resPower" class="value">---</p>
-                    </div>
-                    <div class="data-box highlight-blue">
-                        <span class="label text-blue-500">Combustible</span>
-                        <p id="resFuel" class="value">---</p>
-                    </div>
-                    <div class="data-box">
-                        <span class="label">Cilindrada</span>
-                        <p id="resEngine" class="value">---</p>
-                    </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <div class="p-4 bg-white/5 rounded-xl"><p class="text-xs text-gray-500 uppercase font-bold">Marca</p><p id="resMake" class="text-xl font-bold">---</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl"><p class="text-xs text-gray-500 uppercase font-bold">Modelo</p><p id="resModel" class="text-xl font-bold">---</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl"><p class="text-xs text-gray-500 uppercase font-bold">Año</p><p id="resYear" class="text-xl font-bold">---</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl"><p class="text-xs text-gray-500 uppercase font-bold">Potencia</p><p id="resPower" class="text-xl font-bold">---</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl"><p class="text-xs text-gray-500 uppercase font-bold">Motor</p><p id="resFuel" class="text-xl font-bold">---</p></div>
+                    <div class="p-4 bg-white/5 rounded-xl"><p class="text-xs text-gray-500 uppercase font-bold">CC</p><p id="resEngine" class="text-xl font-bold">---</p></div>
                 </div>
             </div>
         </div>
-    </main>
+    </div>
 
     <script src="script.js"></script>
 </body>
