@@ -3,89 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFOMATRICULA | CARBON EDITION</title>
+    <title>INFOMATRICULA | Carbon Edition</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body class="carbon-bg">
+    <div class="ad-slot ad-top">PUBLICIDAD SUPERIOR</div>
 
-    <div class="ad-slot ad-top"><span>PUBLICIDAD - ANUNCIO SUPERIOR</span></div>
+    <div class="layout-wrapper">
+        <aside class="ad-slot ad-sidebar">ADS</aside>
 
-    <div class="main-layout">
-        <aside class="ad-slot ad-sidebar">LATERAL</aside>
-
-        <div class="container-premium">
+        <div class="main-card">
             <header>
                 <div class="logo"><span>INFO</span>MATRICULA</div>
-                <div class="badge-status"><i class="fas fa-shield-alt"></i> VERIFICACIÓN DGT ACTIVA</div>
+                <div class="edition">CARBON EDITION</div>
             </header>
 
-            <main>
-                <div class="hero-text">
-                    <h1>DATOS <span>OFICIALES</span></h1>
-                    <p>Consulta técnica avanzada de matriculación española.</p>
+            <div class="search-box">
+                <div class="input-container">
+                    <div class="eu-flag"><span>EU</span><span>E</span></div>
+                    <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
+                </div>
+                <button onclick="consultarVehiculo()">ANALIZAR</button>
+            </div>
+
+            <div id="loader" class="loader hidden">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>CONECTANDO CON DGT...</p>
+            </div>
+
+            <div id="resultsContent" class="results-area hidden">
+                <div class="hero-image">
+                    <img id="vehiclePhoto" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80" alt="Coche">
+                    <div class="overlay"></div>
+                    <div class="plate-badge" id="resPlate">---</div>
                 </div>
 
-                <div class="search-box-glass">
-                    <div class="plate-input-container">
-                        <div class="eu-badge"><span>EU</span><span>E</span></div>
-                        <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
-                    </div>
-                    <button onclick="consultarVehiculo()" class="btn-analyze">ANALIZAR</button>
+                <div class="ad-slot ad-internal">ANUNCIO</div>
+
+                <div class="data-grid">
+                    <div class="data-box"><label>MARCA</label><span id="resMake">---</span></div>
+                    <div class="data-box"><label>MODELO</label><span id="resModel">---</span></div>
+                    <div class="data-box blue"><label>AÑO</label><span id="resYear">---</span></div>
+                    <div class="data-box blue"><label>POTENCIA</label><span id="resPower">---</span></div>
+                    <div class="data-box"><label>FUEL</label><span id="resFuel">---</span></div>
+                    <div class="data-box"><label>MOTOR</label><span id="resEngine">---</span></div>
                 </div>
-
-                <div id="loader" class="loader-container hidden">
-                    <div class="spinner"></div>
-                    <p>ACCEDIENDO A LA FICHA TÉCNICA...</p>
-                </div>
-
-                <div id="resultsContent" class="results-card hidden">
-                    <div class="vehicle-hero">
-                        <img id="vehiclePhoto" src="" alt="Vehículo">
-                        <div class="hero-overlay"></div>
-                        <div class="plate-badge-display" id="resPlate">---</div>
-                    </div>
-
-                    <div class="ad-slot ad-internal">ANUNCIO</div>
-
-                    <div class="specs-grid">
-                        <div class="spec-tile">
-                            <label>MARCA</label>
-                            <span id="resMake">---</span>
-                        </div>
-                        <div class="spec-tile">
-                            <label>MODELO</label>
-                            <span id="resModel">---</span>
-                        </div>
-                        <div class="spec-tile accent">
-                            <label>AÑO</label>
-                            <span id="resYear">---</span>
-                        </div>
-                        <div class="spec-tile accent">
-                            <label>POTENCIA</label>
-                            <span id="resPower">---</span>
-                        </div>
-                        <div class="spec-tile">
-                            <label>COMBUSTIBLE</label>
-                            <span id="resFuel">---</span>
-                        </div>
-                        <div class="spec-tile">
-                            <label>CILINDRADA</label>
-                            <span id="resEngine">---</span>
-                        </div>
-                    </div>
-
-                    <div class="card-footer">
-                        <p id="resDescription">VEHÍCULO IDENTIFICADO</p>
-                    </div>
-                </div>
-            </main>
+                <div class="footer-msg" id="resDescription">VEHÍCULO IDENTIFICADO</div>
+            </div>
         </div>
 
-        <aside class="ad-slot ad-sidebar">LATERAL</aside>
+        <aside class="ad-slot ad-sidebar">ADS</aside>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
