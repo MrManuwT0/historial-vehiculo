@@ -6,7 +6,7 @@ const app = express();
 app.use(cors());
 
 // 🔑 TU API KEY AQUÍ
-const RAPID_KEY = "TU_API_KEY";
+const RAPID_KEY = "b4b6eb078cmsh025d40281b264c2p19be9ajsn045ec5167bae";
 const RAPID_HOST = "api-matriculas-espana.p.rapidapi.com";
 
 // Endpoint propio
