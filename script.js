@@ -1,41 +1,39 @@
 async function consultarVehiculo() {
-    const plateInput = document.getElementById('plateInput');
-    const plate = plateInput.value.trim().toUpperCase();
+    const plate = document.getElementById('plateInput').value.trim().toUpperCase();
     if (!plate) return;
 
-    // Mostrar que estamos trabajando
-    console.log("Consultando matrícula: " + plate);
+    const loader = document.getElementById('loader');
+    const results = document.getElementById('resultsContent');
+
+    loader.classList.remove('hidden');
+    results.classList.add('hidden');
 
     try {
+        // Petición al túnel de Render
         const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
-        const result = await response.json();
+        const data = await response.json();
 
-        if (result.error) {
-            alert("Error del servidor: " + (result.detalles?.message || result.error));
-            return;
-        }
+        if (data.error) throw new Error(data.error);
 
-        // Extraemos los datos (RapidAPI suele enviarlos en .data o raíz)
-        const d = result.data || result;
+        // Extraer datos (manejando si vienen en .data o raíz)
+        const d = data.data || data;
 
-        // ASIGNACIÓN DIRECTA DE DATOS
+        // Rellenar UI
         document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = d.marca || d.brand || "NO DISPONIBLE";
-        document.getElementById('resModel').innerText = d.modelo || d.model || "---";
+        document.getElementById('resMake').innerText = (d.marca || "DESCONOCIDO").toUpperCase();
+        document.getElementById('resModel').innerText = (d.modelo || "S/N").toUpperCase();
         document.getElementById('resYear').innerText = d.fecha_matriculacion || d.year || "---";
         document.getElementById('resPower').innerText = (d.potencia || "---") + " CV";
-        document.getElementById('resFuel').innerText = (d.combustible || "---").toUpperCase();
         document.getElementById('resEngine').innerText = (d.cilindrada || "---") + " CC";
+        document.getElementById('resFuel').innerText = (d.combustible || "---").toUpperCase();
 
-        // Foto dinámica
-        const foto = document.getElementById('vehiclePhoto');
-        if(foto) foto.src = `https://source.unsplash.com/800x400/?car,${d.marca}`;
+        // Foto basada en la marca
+        document.getElementById('vehiclePhoto').src = `https://source.unsplash.com/800x400/?car,${d.marca}`;
 
-        // Mostrar resultados
-        document.getElementById('resultsContent').classList.remove('hidden');
-
+        results.classList.remove('hidden');
     } catch (err) {
-        console.error("Fallo total:", err);
-        alert("No se pudo conectar con el servidor de Render.");
+        alert("Error: " + err.message);
+    } finally {
+        loader.classList.add('hidden');
     }
 }
