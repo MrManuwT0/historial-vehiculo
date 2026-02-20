@@ -3,51 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFOMATRICULA Premium</title>
+    <title>INFOMATRICULA CARBON EDITION</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
+    <div class="carbon-wrapper">
         <header>
-            <div class="logo">⚡ INFOMATRICULA</div>
-            <div class="badge">SISTEMA OFICIAL DE CONSULTA</div>
+            <div class="logo-carbon"><span>INFOMATRICULA</span> CARBON</div>
+            <div class="status-dot">SERVER STATUS: ONLINE</div>
         </header>
 
-        <main>
-            <h1>DATOS <span>OFICIALES</span></h1>
-            <p class="subtitle">Informe técnico de vehículos mediante base de datos DGT.</p>
+        <section class="search-section">
+            <div class="search-container-carbon">
+                <input type="text" id="plateInput" placeholder="BUSCAR MATRÍCULA..." maxlength="8">
+                <button onclick="consultarVehiculo()">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                </button>
+            </div>
+        </section>
 
-            <div class="search-box">
-                <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
-                <button onclick="consultarVehiculo()">CONSULTAR</button>
+        <div id="loader" class="loader hidden"></div>
+
+        <div id="resultsContent" class="results-card-carbon hidden">
+            <div class="vehicle-banner">
+                <img id="vehiclePhoto" src="" alt="Cargando...">
+                <div class="banner-overlay"></div>
+                <div class="plate-badge" id="resPlate">---</div>
             </div>
 
-            <div id="loader" class="loader hidden"></div>
-
-            <div id="resultsContent" class="results-card hidden">
-                <div class="vehicle-photo-container">
-                    <img id="vehiclePhoto" src="" alt="Vehículo">
-                    <div class="photo-overlay"></div>
+            <div class="data-container">
+                <div class="main-info">
+                    <h2 id="resMake">MARCA</h2>
+                    <p id="resModel">MODELO DEL VEHÍCULO</p>
                 </div>
 
-                <div class="results-header">
-                    <div class="plate-display" id="resPlate">---</div>
-                    <div id="resDescription">LOCALIZADO</div>
+                <div class="specs-grid-carbon">
+                    <div class="spec-box">
+                        <label>POTENCIA</label>
+                        <span id="resPower">---</span>
+                    </div>
+                    <div class="spec-box">
+                        <label>AÑO</label>
+                        <span id="resYear">---</span>
+                    </div>
+                    <div class="spec-box">
+                        <label>MOTOR</label>
+                        <span id="resEngine">---</span>
+                    </div>
+                    <div class="spec-box">
+                        <label>FUEL</label>
+                        <span id="resFuel">---</span>
+                    </div>
                 </div>
-
-                <div class="specs-grid">
-                    <div class="spec-item"><label>MARCA</label><p id="resMake">---</p></div>
-                    <div class="spec-item"><label>MODELO</label><p id="resModel">---</p></div>
-                    <div class="spec-item"><label>AÑO</label><p id="resYear">---</p></div>
-                    <div class="spec-item"><label>POTENCIA</label><p id="resPower">---</p></div>
-                    <div class="spec-item"><label>COMBUSTIBLE</label><p id="resFuel">---</p></div>
-                    <div class="spec-item"><label>CILINDRADA</label><p id="resEngine">---</p></div>
+                
+                <div class="verification-footer">
+                    <span class="shield">🛡️</span> SISTEMA DE VERIFICACIÓN CARBON SECURE
                 </div>
             </div>
-        </main>
-        <footer>© 2026 INFOMATRICULA</footer>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>
