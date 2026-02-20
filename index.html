@@ -3,59 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFOMATRICULA | Carbon Edition</title>
+    <title>INFOMATRICULA | Carbon Edition Elite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="carbon-bg">
-    <div class="ad-slot ad-top">PUBLICIDAD SUPERIOR</div>
+<body class="carbon text-white">
 
-    <div class="layout-wrapper">
-        <aside class="ad-slot ad-sidebar">ADS</aside>
+    <div class="ad-slot-top">
+        <span class="text-[10px] text-gray-600 font-bold uppercase tracking-widest">Publicidad</span>
+    </div>
 
-        <div class="main-card">
-            <header>
-                <div class="logo"><span>INFO</span>MATRICULA</div>
-                <div class="edition">CARBON EDITION</div>
+    <div class="main-layout-container">
+        <aside class="ad-sidebar-left">ADS</aside>
+
+        <div class="content-card-premium">
+            <header class="text-center mb-8">
+                <div class="flex justify-center items-center gap-2 mb-2">
+                    <i class="fas fa-car-side text-blue-500 text-3xl"></i>
+                    <span class="text-3xl font-black italic tracking-tighter uppercase">INFO<span class="text-blue-500">MATRICULA</span></span>
+                </div>
+                <p class="text-[10px] tracking-[5px] text-blue-400 font-bold uppercase opacity-70">Carbon Edition Elite</p>
             </header>
 
-            <div class="search-box">
-                <div class="input-container">
-                    <div class="eu-flag"><span>EU</span><span>E</span></div>
-                    <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
+            <div class="glass-search-container">
+                <div class="flex items-center bg-white rounded-xl px-4 overflow-hidden shadow-inner">
+                    <div class="bg-blue-800 text-white px-2 py-1 rounded-sm text-[9px] font-bold flex flex-col mr-3">
+                        <span>EU</span><span>E</span>
+                    </div>
+                    <input id="plateInput" type="text" placeholder="6986JDY" class="w-full py-4 text-2xl font-black text-slate-900 outline-none uppercase plate-font italic" maxlength="8">
                 </div>
-                <button onclick="consultarVehiculo()">ANALIZAR</button>
+                <button onclick="consultarVehiculo()" class="w-full mt-4 bg-blue-600 hover:bg-blue-700 text-white py-5 rounded-xl font-black uppercase text-xl transition-all btn-glow shadow-lg active:scale-95">
+                    ANALIZAR VEHÍCULO
+                </button>
             </div>
 
-            <div id="loader" class="loader hidden">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>CONECTANDO CON DGT...</p>
+            <div id="loader" class="hidden text-center py-12">
+                <div class="animate-spin text-blue-500 text-5xl mb-4 inline-block">
+                    <i class="fas fa-circle-notch"></i>
+                </div>
+                <p class="text-xs font-bold text-gray-500 uppercase tracking-widest">Consultando Base de Datos...</p>
             </div>
 
-            <div id="resultsContent" class="results-area hidden">
-                <div class="hero-image">
-                    <img id="vehiclePhoto" src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&q=80" alt="Coche">
-                    <div class="overlay"></div>
-                    <div class="plate-badge" id="resPlate">---</div>
+            <div id="resultsContent" class="hidden mt-8 animate-fade-in">
+                <div class="relative rounded-3xl overflow-hidden mb-6 h-52 shadow-2xl border border-white/10">
+                    <img id="vehiclePhoto" src="https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover opacity-40">
+                    <div class="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent"></div>
+                    <div class="absolute bottom-6 left-6 bg-white px-6 py-2 rounded shadow-xl border-b-4 border-slate-300">
+                        <span id="resPlate" class="text-4xl font-black text-slate-800 plate-font italic">---</span>
+                    </div>
                 </div>
 
-                <div class="ad-slot ad-internal">ANUNCIO</div>
+                <div class="ad-slot-internal mb-6">ANUNCIO</div>
 
-                <div class="data-grid">
-                    <div class="data-box"><label>MARCA</label><span id="resMake">---</span></div>
-                    <div class="data-box"><label>MODELO</label><span id="resModel">---</span></div>
-                    <div class="data-box blue"><label>AÑO</label><span id="resYear">---</span></div>
-                    <div class="data-box blue"><label>POTENCIA</label><span id="resPower">---</span></div>
-                    <div class="data-box"><label>FUEL</label><span id="resFuel">---</span></div>
-                    <div class="data-box"><label>MOTOR</label><span id="resEngine">---</span></div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="spec-tile-carbon">
+                        <label>MARCA</label>
+                        <span id="resMake" class="text-blue-500">---</span>
+                    </div>
+                    <div class="spec-tile-carbon">
+                        <label>MODELO</label>
+                        <span id="resModel">---</span>
+                    </div>
+                    <div class="spec-tile-carbon border-blue-500/30 bg-blue-500/5">
+                        <label class="text-blue-400">FECHA MATRICULACIÓN</label>
+                        <span id="resYear">---</span>
+                    </div>
+                    <div class="spec-tile-carbon border-blue-500/30 bg-blue-500/5">
+                        <label class="text-blue-400">POTENCIA NETA</label>
+                        <span id="resPower">---</span>
+                    </div>
+                    <div class="spec-tile-carbon">
+                        <label>TIPO DE MOTOR</label>
+                        <span id="resFuel">---</span>
+                    </div>
+                    <div class="spec-tile-carbon">
+                        <label>VERSIÓN / TPMOTOR</label>
+                        <span id="resEngine" class="text-xs">---</span>
+                    </div>
                 </div>
-                <div class="footer-msg" id="resDescription">VEHÍCULO IDENTIFICADO</div>
+
+                <div class="mt-6 p-4 rounded-xl bg-white/5 border border-white/5 text-center">
+                    <p id="resDescription" class="text-[10px] font-bold text-blue-500 tracking-widest uppercase">---</p>
+                </div>
             </div>
         </div>
 
-        <aside class="ad-slot ad-sidebar">ADS</aside>
+        <aside class="ad-sidebar-right">ADS</aside>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
