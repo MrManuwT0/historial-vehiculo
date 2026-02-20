@@ -1,60 +1,29 @@
-:root {
-    --carbon-black: #080808;
-    --accent: #38bdf8;
+:root { --bg: #080808; --accent: #38bdf8; --gray: #121212; }
+
+body { 
+    background: var(--bg); 
+    background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #080808 80%);
+    color: white; font-family: 'Inter', sans-serif; min-height: 100vh;
+    display: flex; justify-content: center; align-items: center; margin: 0;
 }
 
-body {
-    background: var(--carbon-black);
-    /* Fondo con luces sutiles */
-    background-image: radial-gradient(circle at 50% -20%, #1e293b 0%, #080808 70%);
-    color: white;
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    padding: 40px 20px;
-}
+.carbon-wrapper { width: 100%; max-width: 450px; padding: 20px; }
 
-.results-card-carbon {
-    background: #121212;
-    border-radius: 20px;
-    overflow: hidden;
-    border: 1px solid rgba(255,255,255,0.05);
-    width: 100%;
-    max-width: 500px;
-}
+.search-container { display: flex; background: var(--gray); border-radius: 12px; padding: 5px; border: 1px solid rgba(255,255,255,0.05); }
+input { flex: 1; background: transparent; border: none; color: white; padding: 15px; font-weight: 700; outline: none; }
+button { background: var(--accent); border: none; padding: 0 20px; border-radius: 8px; font-weight: 900; cursor: pointer; }
 
-.vehicle-banner {
-    position: relative;
-    height: 200px;
-    background: #000;
-}
+.results-card { background: var(--gray); border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); margin-top: 20px; }
+.vehicle-banner { position: relative; height: 180px; background: #000; }
+#vehiclePhoto { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
+.banner-overlay { position: absolute; inset: 0; background: linear-gradient(to top, var(--gray), transparent); }
+.plate-tag { position: absolute; bottom: 15px; left: 15px; background: white; color: black; padding: 4px 12px; font-weight: 900; border-radius: 4px; font-family: 'Orbitron'; }
 
-#vehiclePhoto {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.6; /* Foto oscurecida estilo Carbon */
-}
-
-.banner-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, #121212, transparent);
-}
-
-.specs-grid-carbon {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    padding: 25px;
-}
-
-.spec-box {
-    background: rgba(255,255,255,0.02);
-    padding: 15px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.05);
-}
+.data-content { padding: 20px; }
+.specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+.spec-item { background: rgba(255,255,255,0.02); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.03); }
+.spec-item label { display: block; font-size: 0.6rem; color: #666; font-weight: 700; }
 
 .hidden { display: none !important; }
+.loader { width: 30px; height: 30px; border: 3px solid rgba(56,189,248,0.1); border-top-color: var(--accent); border-radius: 50%; margin: 20px auto; animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
