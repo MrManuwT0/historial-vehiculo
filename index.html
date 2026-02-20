@@ -3,79 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFOMATRICULA - Datos Oficiales DGT</title>
-    
+    <title>INFOMATRICULA Premium</title>
     <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
     <link rel="stylesheet" href="style.css">
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <div class="container">
         <header>
-            <div class="logo">
-                <span class="bolt">⚡</span> INFOMATRICULA
-            </div>
-            <div id="status-badge" class="badge">RENDER BACKEND ACTIVE</div>
+            <div class="logo">⚡ INFOMATRICULA</div>
+            <div class="badge">SISTEMA OFICIAL DE CONSULTA</div>
         </header>
 
         <main>
             <h1>DATOS <span>OFICIALES</span></h1>
-            <p class="subtitle">Consulta técnica de vehículos mediante base de datos DGT actualizada.</p>
+            <p class="subtitle">Informe técnico de vehículos mediante base de datos DGT.</p>
 
             <div class="search-box">
-                <input type="text" id="plateInput" placeholder="1234BBB" maxlength="8">
-                <button onclick="consultarVehiculo()" id="searchBtn">CONSULTAR</button>
+                <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
+                <button onclick="consultarVehiculo()">CONSULTAR</button>
             </div>
 
             <div id="loader" class="loader hidden"></div>
 
             <div id="resultsContent" class="results-card hidden">
+                <div class="vehicle-photo-container">
+                    <img id="vehiclePhoto" src="" alt="Vehículo">
+                    <div class="photo-overlay"></div>
+                </div>
+
                 <div class="results-header">
-                    <div class="plate-display">
-                        <span id="resPlate">---</span>
-                    </div>
-                    <div class="status-info">
-                        <p id="resDescription">DOCUMENTO VERIFICADO</p>
-                    </div>
+                    <div class="plate-display" id="resPlate">---</div>
+                    <div id="resDescription">LOCALIZADO</div>
                 </div>
 
                 <div class="specs-grid">
-                    <div class="spec-item">
-                        <label>MARCA</label>
-                        <p id="resMake">---</p>
-                    </div>
-                    <div class="spec-item">
-                        <label>MODELO</label>
-                        <p id="resModel">---</p>
-                    </div>
-                    <div class="spec-item">
-                        <label>AÑO REGISTRO</label>
-                        <p id="resYear">---</p>
-                    </div>
-                    <div class="spec-item">
-                        <label>POTENCIA</label>
-                        <p id="resPower">---</p>
-                    </div>
-                    <div class="spec-item">
-                        <label>COMBUSTIBLE</label>
-                        <p id="resFuel">---</p>
-                    </div>
-                    <div class="spec-item">
-                        <label>CILINDRADA</label>
-                        <p id="resEngine">---</p>
-                    </div>
+                    <div class="spec-item"><label>MARCA</label><p id="resMake">---</p></div>
+                    <div class="spec-item"><label>MODELO</label><p id="resModel">---</p></div>
+                    <div class="spec-item"><label>AÑO</label><p id="resYear">---</p></div>
+                    <div class="spec-item"><label>POTENCIA</label><p id="resPower">---</p></div>
+                    <div class="spec-item"><label>COMBUSTIBLE</label><p id="resFuel">---</p></div>
+                    <div class="spec-item"><label>CILINDRADA</label><p id="resEngine">---</p></div>
                 </div>
             </div>
         </main>
-
-        <footer>
-            &copy; 2026 INFOMATRICULA - Referencia matriculas.org
-        </footer>
+        <footer>© 2026 INFOMATRICULA</footer>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
