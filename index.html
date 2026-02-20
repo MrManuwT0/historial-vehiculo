@@ -8,41 +8,47 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="ad-top">ANUNCIO SUPERIOR</div>
+    <div class="ad-banner top-ad">--- PUBLICIDAD SUPERIOR ---</div>
 
-    <div class="main-layout">
-        <aside class="ad-side">ADS</aside>
+    <div class="layout-main">
+        <aside class="ad-sidebar left-ad">ADS</aside>
 
-        <div class="carbon-card">
+        <div class="carbon-container">
             <header>
                 <div class="logo"><span>INFO</span>MATRICULA</div>
+                <div class="edition-label">CARBON EDITION</div>
             </header>
 
-            <div class="search-box">
-                <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
+            <div class="search-box-premium">
+                <input type="text" id="plateInput" placeholder="EJ: 1234BCD" maxlength="8">
                 <button onclick="consultarVehiculo()">CONSULTAR</button>
             </div>
 
             <div id="loader" class="loader hidden"></div>
 
-            <div id="resultsContent" class="results hidden">
-                <div class="vehicle-bg">
-                    <img id="vehiclePhoto" src="" alt="Coche">
-                    <div class="plate-label" id="resPlate">---</div>
+            <div id="resultsContent" class="results-card hidden">
+                <div class="vehicle-hero">
+                    <img id="vehiclePhoto" src="" alt="Vehículo">
+                    <div class="carbon-overlay"></div>
+                    <div class="plate-badge" id="resPlate">---</div>
                 </div>
 
-                <div class="data-grid">
-                    <div class="item"><label>MARCA</label><span id="resMake">---</span></div>
-                    <div class="item"><label>MODELO</label><span id="resModel">---</span></div>
-                    <div class="item"><label>AÑO</label><span id="resYear">---</span></div>
-                    <div class="item"><label>POTENCIA</label><span id="resPower">---</span></div>
+                <div class="specs-grid">
+                    <div class="spec-tile"><label>MARCA</label><span id="resMake">---</span></div>
+                    <div class="spec-tile"><label>MODELO</label><span id="resModel">---</span></div>
+                    <div class="spec-tile"><label>AÑO</label><span id="resYear">---</span></div>
+                    <div class="spec-tile"><label>POTENCIA</label><span id="resPower">---</span></div>
+                    <div class="spec-tile"><label>COMBUSTIBLE</label><span id="resFuel">---</span></div>
+                    <div class="spec-tile"><label>CILINDRADA</label><span id="resEngine">---</span></div>
                 </div>
-                <div class="ad-internal">ANUNCIO INTERNO</div>
+
+                <div class="ad-internal">--- PUBLICIDAD INTERNA ---</div>
             </div>
         </div>
 
-        <aside class="ad-side">ADS</aside>
+        <aside class="ad-sidebar right-ad">ADS</aside>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
