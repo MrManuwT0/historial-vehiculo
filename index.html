@@ -3,97 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INFOMATRICULA | CARBON EDITION</title>
-    
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@300;400;700&display=swap" rel="stylesheet">
-    
+    <title>INFOMATRICULA | CARBON</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-
     <div class="carbon-wrapper">
-        <header class="main-header">
-            <div class="logo-carbon">
-                <span>INFO</span>MATRICULA
-                <div class="edition">CARBON EDITION</div>
-            </div>
-            <div id="status-indicator" class="status-online">
-                <span class="dot"></span> SISTEMA ACTIVO
-            </div>
+        <header>
+            <div class="logo-carbon"><span>INFO</span>MATRICULA</div>
+            <div class="badge">SISTEMA PROXY RENDER ACTIVO</div>
         </header>
 
         <section class="search-section">
-            <h1>CONSULTA <span>DGT</span></h1>
-            <p class="tagline">Acceso directo a la base de datos técnica de vehículos.</p>
-            
-            <div class="search-container-carbon">
-                <input type="text" id="plateInput" placeholder="INTRODUCE MATRÍCULA..." maxlength="8" spellcheck="false">
-                <button onclick="consultarVehiculo()" id="btnSearch">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                </button>
+            <div class="search-container">
+                <input type="text" id="plateInput" placeholder="6986JDY" maxlength="8">
+                <button onclick="consultarVehiculo()">CONSULTAR</button>
             </div>
         </section>
 
-        <div id="loader" class="loader-carbon hidden">
-            <div class="spinner"></div>
-            <p>CONECTANDO CON EL PUENTE...</p>
-        </div>
+        <div id="loader" class="loader hidden"></div>
 
-        <div id="resultsContent" class="results-card-carbon hidden">
-            
+        <div id="resultsContent" class="results-card hidden">
             <div class="vehicle-banner">
-                <img id="vehiclePhoto" src="" alt="Cargando imagen...">
+                <img id="vehiclePhoto" src="" alt="Cargando...">
                 <div class="banner-overlay"></div>
-                <div class="plate-badge">
-                    <span id="resPlate">---</span>
-                </div>
+                <div class="plate-tag" id="resPlate">---</div>
             </div>
 
-            <div class="data-wrapper">
-                <div class="main-title">
-                    <h2 id="resMake">MARCA</h2>
-                    <p id="resModel">MODELO DEL VEHÍCULO</p>
-                </div>
+            <div class="data-content">
+                <h2 id="resMake">MARCA</h2>
+                <p id="resModel">MODELO</p>
 
-                <div class="specs-grid-carbon">
-                    <div class="spec-box">
-                        <label>POTENCIA</label>
-                        <span id="resPower">---</span>
-                    </div>
-                    <div class="spec-box">
-                        <label>AÑO</label>
-                        <span id="resYear">---</span>
-                    </div>
-                    <div class="spec-box">
-                        <label>MOTOR</label>
-                        <span id="resEngine">---</span>
-                    </div>
-                    <div class="spec-box">
-                        <label>FUEL</label>
-                        <span id="resFuel">---</span>
-                    </div>
-                </div>
-
-                <div class="verification-footer">
-                    <div class="shield-icon">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 20 20">
-                            <path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001z" clip-rule="evenodd"></path>
-                        </svg>
-                    </div>
-                    VERIFICACIÓN CARBON SECURE VIA RENDER NODE
+                <div class="specs-grid">
+                    <div class="spec-item"><label>AÑO</label><span id="resYear">---</span></div>
+                    <div class="spec-item"><label>POTENCIA</label><span id="resPower">---</span></div>
+                    <div class="spec-item"><label>MOTOR</label><span id="resEngine">---</span></div>
+                    <div class="spec-item"><label>FUEL</label><span id="resFuel">---</span></div>
                 </div>
             </div>
         </div>
-
-        <footer class="carbon-footer">
-            &copy; 2026 INFOMATRICULA - TECNOLOGÍA PROXY DIRECTA
-        </footer>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
