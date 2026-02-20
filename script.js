@@ -8,37 +8,42 @@ async function consultarVehiculo() {
     try {
         const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
         const data = await response.json();
-        
-        // Manejar Array o Objeto
         const v = Array.isArray(data) ? data[0] : data;
 
-        // Función para evitar el "0" o "N/D"
-        const validar = (val) => (val && val !== "0" && val !== 0) ? val : "---";
+        // Función de limpieza para datos nulos o vacíos
+        const fix = (val) => (val && val !== "0" && val !== 0) ? val : "---";
 
+        // Asignación de datos principales
         document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = (validar(v.MARCA || v.marca || v.Make)).toUpperCase();
-        document.getElementById('resModel').innerText = (validar(v.MODELO || v.modelo || v.Model)).toUpperCase();
-        document.getElementById('resYear').innerText = validar(v.FECHA_MATRICULACION || v.fecha_matriculacion || v.RegistrationYear);
-        document.getElementById('resFuel').innerText = (validar(v.TYMOTOR || v.combustible || v.FuelType)).toUpperCase();
+        document.getElementById('resMake').innerText = fix(v.MARCA || v.marca).toUpperCase();
+        document.getElementById('resModel').innerText = fix(v.MODELO || v.modelo).toUpperCase();
+        document.getElementById('resYear').innerText = fix(v.FECHA_MATRICULACION || v.fecha_matriculacion);
+        document.getElementById('resFuel').innerText = fix(v.TYMOTOR || v.combustible).toUpperCase();
         
-        // CORRECCIÓN VERSIÓN MOTOR
-        document.getElementById('resEngine').innerText = (validar(v.TPMOTOR || v.motor || v.EngineSize || v.CARROCERIA)).toUpperCase();
+        // Datos Avanzados (Nuevos)
+        document.getElementById('resDrive').innerText = fix(v.TRACCION || v.traccion).toUpperCase();
+        document.getElementById('resBody').innerText = fix(v.CARROCERIA || v.carroceria).toUpperCase();
+        document.getElementById('resEngine').innerText = fix(v.MOTOR || v.TPMOTOR || "VER FICHA TÉCNICA").toUpperCase();
 
-        // CORRECCIÓN POTENCIA DINÁMICA
-        const pRaw = v.KWs || v.potencia || v.HorsePower || 0;
+        // Cálculo dinámico de Potencia (KW a CV)
+        const pRaw = v.KWs || v.potencia || 0;
         if (pRaw && pRaw != 0) {
             const num = parseFloat(pRaw);
-            // Si es menor a 400 asumimos que son KWs y convertimos, si no, son CVs directos
-            const cv = (num < 400) ? Math.round(num * 1.35962) : Math.round(num);
+            const cv = (num < 450) ? Math.round(num * 1.35962) : Math.round(num);
             document.getElementById('resPower').innerText = `${cv} CV`;
         } else {
-            document.getElementById('resPower').innerText = "VER INFORME";
+            document.getElementById('resPower').innerText = "---";
         }
 
+        // Mostrar VIN en la descripción si existe
+        if (v.VIN) {
+            document.getElementById('resDescription').innerText = `Nº BASTIDOR (VIN): ${v.VIN}`;
+        }
+
+        document.getElementById('resultsContent').classList.remove('hidden');
     } catch (err) {
-        alert("Error de conexión con el servidor.");
+        alert("Error al conectar con el servidor.");
     } finally {
         document.getElementById('loader').classList.add('hidden');
-        document.getElementById('resultsContent').classList.remove('hidden');
     }
 }
