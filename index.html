@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>INFOMATRICULA | Carbon Edition Elite</title>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2841247337828321" crossorigin="anonymous"></script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;900&display=swap" rel="stylesheet">
@@ -12,13 +15,23 @@
         .carbon { background-image: url('https://www.transparenttextures.com/patterns/carbon-fibre.png'); }
         .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .plate-font { font-family: 'Orbitron', sans-serif; letter-spacing: 2px; }
-        .ad-slot { background: rgba(255, 255, 255, 0.01); border: 1px dashed rgba(255, 255, 255, 0.1); display: flex; align-items: center; justify-content: center; color: #333; font-size: 10px; font-weight: 900; text-transform: uppercase; }
         .btn-glow:hover { box-shadow: 0 0 30px rgba(37, 99, 235, 0.5); transform: translateY(-2px); }
+        .ad-container { margin: 20px auto; text-align: center; overflow: hidden; }
     </style>
 </head>
 <body class="carbon text-white min-h-screen">
 
-    <div class="max-w-[970px] mx-auto h-[60px] mt-4 ad-slot">Espacio Publicitario</div>
+    <div class="max-w-[970px] mx-auto pt-4 px-4">
+        <div class="ad-container">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="ca-pub-2841247337828321"
+                 data-ad-slot="AUTO"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
 
     <div class="flex justify-center p-6">
         <div class="w-full max-w-[550px]">
@@ -29,7 +42,7 @@
                 </div>
             </header>
 
-            <div class="glass p-6 rounded-[2rem] shadow-2xl mb-8 border border-white/10">
+            <div class="glass p-6 rounded-[2rem] shadow-2xl mb-6 border border-white/10">
                 <div class="flex items-center bg-white rounded-2xl px-5 py-1 shadow-inner">
                     <div class="bg-[#003399] text-white px-2 py-1 rounded-sm text-[9px] font-bold flex flex-col mr-4"><span>EU</span><span>E</span></div>
                     <input id="plateInput" type="text" placeholder="1234BBB" class="w-full py-4 text-3xl font-black text-slate-900 outline-none uppercase plate-font italic">
@@ -37,6 +50,15 @@
                 <button onclick="consultarVehiculo()" class="w-full mt-5 bg-blue-600 hover:bg-blue-700 text-white py-6 rounded-2xl font-black uppercase text-xl transition-all btn-glow active:scale-95 shadow-xl">
                     ANALIZAR VEHÍCULO
                 </button>
+            </div>
+
+            <div class="ad-container my-8">
+                <ins class="adsbygoogle"
+                     style="display:block"
+                     data-ad-client="ca-pub-2841247337828321"
+                     data-ad-slot="AUTO"
+                     data-ad-format="rectangle"></ins>
+                <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
             </div>
 
             <div id="loader" class="hidden text-center py-10">
@@ -67,6 +89,17 @@
                             <p class="text-[9px] text-blue-400 font-black uppercase mb-1 tracking-widest">Matriculación</p>
                             <p id="resYear" class="text-2xl font-black italic">---</p>
                         </div>
+                        
+                        <div class="col-span-2 py-2">
+                             <ins class="adsbygoogle"
+                                 style="display:block; text-align:center;"
+                                 data-ad-layout="in-article"
+                                 data-ad-format="fluid"
+                                 data-ad-client="ca-pub-2841247337828321"
+                                 data-ad-slot="AUTO"></ins>
+                            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+                        </div>
+
                         <div class="bg-white/[0.03] p-4 rounded-xl border border-white/5">
                             <p class="text-[9px] text-gray-500 font-black uppercase mb-1">Potencia</p>
                             <p id="resPower" class="text-lg font-black">---</p>
@@ -84,10 +117,6 @@
                             <div>
                                 <p class="text-[8px] text-blue-400 font-black uppercase mb-1">Carrocería</p>
                                 <p id="resBody" class="text-xs font-bold">---</p>
-                            </div>
-                            <div class="col-span-2">
-                                <p class="text-[8px] text-gray-500 font-black uppercase mb-1">Código de Motor / Versión</p>
-                                <p id="resEngine" class="text-[10px] font-mono text-gray-400">---</p>
                             </div>
                         </div>
                     </div>
