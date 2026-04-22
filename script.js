@@ -6,33 +6,22 @@ async function consultarVehiculo() {
     document.getElementById('resultsContent').classList.add('hidden');
 
     try {
-        // AÑADIDO: Log para ver qué URL estamos llamando
-        console.log("Consultando: https://api-historial-vehiculo.onrender.com/" + plate);
-        
         const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
+        const v = await response.json();
+
+        // Mapeo flexible adaptado a la API matriculas-espana1
+        document.getElementById('resMake').innerText = v.marca || v.MARCA || "---";
+        document.getElementById('resModel').innerText = v.modelo || v.MODELO || "---";
+        document.getElementById('resYear').innerText = v.fecha_matriculacion || v.FECHA_MATRICULACION || "---";
+        document.getElementById('resFuel').innerText = v.combustible || v.TYMOTOR || "---";
         
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-
-        const data = await response.json();
-        
-        // AÑADIDO: Log para ver qué nos llega del servidor
-        console.log("Datos recibidos:", data);
-
-        if (!data || (Array.isArray(data) && data.length === 0)) {
-            throw new Error("No se encontraron datos");
-        }
-
-        const v = Array.isArray(data) ? data[0] : data;
-
-        // ... (resto de tu código de mapeo aquí) ...
+        // Conversión de potencia
+        const kw = v.KWs || v.potencia || 0;
+        document.getElementById('resPower').innerText = kw > 0 ? `${Math.round(kw * 1.36)} CV` : "---";
 
         document.getElementById('resultsContent').classList.remove('hidden');
-
     } catch (err) {
-        console.error("Detalle del error:", err);
-        alert("Error: " + err.message + ". Revisa la consola (F12) para más detalles.");
+        alert("Error al conectar con el servidor.");
     } finally {
         document.getElementById('loader').classList.add('hidden');
     }
