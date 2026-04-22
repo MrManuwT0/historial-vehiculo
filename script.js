@@ -6,29 +6,34 @@ async function consultarVehiculo() {
     document.getElementById('resultsContent').classList.add('hidden');
 
     try {
+        // AÑADIDO: Log para ver qué URL estamos llamando
+        console.log("Consultando: https://api-historial-vehiculo.onrender.com/" + plate);
+        
         const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
+        
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+
         const data = await response.json();
+        
+        // AÑADIDO: Log para ver qué nos llega del servidor
+        console.log("Datos recibidos:", data);
+
+        if (!data || (Array.isArray(data) && data.length === 0)) {
+            throw new Error("No se encontraron datos");
+        }
+
         const v = Array.isArray(data) ? data[0] : data;
 
-        const fix = (val) => (val && val !== "0" && val !== 0) ? val : "---";
-
-        document.getElementById('resPlate').innerText = plate;
-        document.getElementById('resMake').innerText = fix(v.MARCA || v.marca).toUpperCase();
-        document.getElementById('resModel').innerText = fix(v.MODELO || v.modelo).toUpperCase();
-        document.getElementById('resYear').innerText = fix(v.FECHA_MATRICULACION || v.fecha_matriculacion);
-        document.getElementById('resFuel').innerText = fix(v.TYMOTOR || v.combustible).toUpperCase();
-        document.getElementById('resDrive').innerText = fix(v.TRACCION || v.traccion).toUpperCase();
-        document.getElementById('resBody').innerText = fix(v.CARROCERIA || v.carroceria).toUpperCase();
-        document.getElementById('resEngine').innerText = fix(v.MOTOR || v.TPMOTOR || "VER FICHA TÉCNICA").toUpperCase();
-
-        const pRaw = v.KWs || v.potencia || 0;
-        document.getElementById('resPower').innerText = (pRaw && pRaw != 0) 
-            ? `${Math.round(pRaw * (pRaw < 450 ? 1.35962 : 1))} CV` 
-            : "---";
-
-        if (v.VIN) document.getElementById('resDescription').innerText = `Nº BASTIDOR (VIN): ${v.VIN}`;
+        // ... (resto de tu código de mapeo aquí) ...
 
         document.getElementById('resultsContent').classList.remove('hidden');
-    } catch (err) { alert("Error al conectar con el servidor."); } 
-    finally { document.getElementById('loader').classList.add('hidden'); }
+
+    } catch (err) {
+        console.error("Detalle del error:", err);
+        alert("Error: " + err.message + ". Revisa la consola (F12) para más detalles.");
+    } finally {
+        document.getElementById('loader').classList.add('hidden');
+    }
 }
