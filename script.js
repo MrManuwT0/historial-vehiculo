@@ -7,17 +7,38 @@ async function consultarVehiculo() {
 
     try {
         const response = await fetch(`https://api-historial-vehiculo.onrender.com/${plate}`);
-        const v = await response.json();
+        const data = await response.json();
+        const v = Array.isArray(data) ? data[0] : data;
 
-        // Mapeo flexible adaptado a la API matriculas-espana1
-        document.getElementById('resMake').innerText = v.marca || v.MARCA || "---";
-        document.getElementById('resModel').innerText = v.modelo || v.MODELO || "---";
-        document.getElementById('resYear').innerText = v.fecha_matriculacion || v.FECHA_MATRICULACION || "---";
-        document.getElementById('resFuel').innerText = v.combustible || v.TYMOTOR || "---";
+        // Función de limpieza para datos nulos o vacíos
+        const fix = (val) => (val && val !== "0" && val !== 0) ? val : "---";
+
+        // Asignación de datos principales
+        document.getElementById('resPlate').innerText = plate;
+        document.getElementById('resMake').innerText = fix(v.MARCA || v.marca).toUpperCase();
+        document.getElementById('resModel').innerText = fix(v.MODELO || v.modelo).toUpperCase();
+        document.getElementById('resYear').innerText = fix(v.FECHA_MATRICULACION || v.fecha_matriculacion);
+        document.getElementById('resFuel').innerText = fix(v.TYMOTOR || v.combustible).toUpperCase();
         
-        // Conversión de potencia
-        const kw = v.KWs || v.potencia || 0;
-        document.getElementById('resPower').innerText = kw > 0 ? `${Math.round(kw * 1.36)} CV` : "---";
+        // Datos Avanzados (Nuevos)
+        document.getElementById('resDrive').innerText = fix(v.TRACCION || v.traccion).toUpperCase();
+        document.getElementById('resBody').innerText = fix(v.CARROCERIA || v.carroceria).toUpperCase();
+        document.getElementById('resEngine').innerText = fix(v.MOTOR || v.TPMOTOR || "VER FICHA TÉCNICA").toUpperCase();
+
+        // Cálculo dinámico de Potencia (KW a CV)
+        const pRaw = v.KWs || v.potencia || 0;
+        if (pRaw && pRaw != 0) {
+            const num = parseFloat(pRaw);
+            const cv = (num < 450) ? Math.round(num * 1.35962) : Math.round(num);
+            document.getElementById('resPower').innerText = `${cv} CV`;
+        } else {
+            document.getElementById('resPower').innerText = "---";
+        }
+
+        // Mostrar VIN en la descripción si existe
+        if (v.VIN) {
+            document.getElementById('resDescription').innerText = `Nº BASTIDOR (VIN): ${v.VIN}`;
+        }
 
         document.getElementById('resultsContent').classList.remove('hidden');
     } catch (err) {
